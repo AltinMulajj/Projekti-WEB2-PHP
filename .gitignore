@@ -1,0 +1,40 @@
+# PHP
+*.php~
+*.phtml
+.env
+.env.local
+
+# Composer
+composer.phar
+/vendor/
+
+# PHPUnit
+phpunit.phar
+.phpunit.result.cache
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
+*.cache
+
+# Database (Phase 2)
+*.sql
+!db/database.sql
+
+# Uploads
+uploads/*
+!uploads/.gitkeep
+
+# Session files
+session_data/
