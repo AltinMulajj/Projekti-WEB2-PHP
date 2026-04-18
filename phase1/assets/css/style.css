@@ -1,0 +1,853 @@
+
+/* ===== RESET & BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+main {
+  flex: 1;
+}
+
+/* ===== TOP BAR (HEADER) ===== */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  background-color: white;
+}
+
+.top-bar .left h1 {
+  margin: 8px;
+  margin-left: 60px;
+}
+
+.top-bar .left h1 a {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+}
+
+.top-bar .right {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-right: 60px;
+}
+
+.top-bar .right nav {
+  display: flex;
+}
+
+.top-bar .right a {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+  padding: 5px;
+  margin: 5px;
+}
+
+.top-bar .right a i {
+  display: flex;
+  font-size: 20px;
+  color: rgb(5, 3, 3);
+}
+
+.top-bar form {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.top-bar form input {
+  padding: 5px;
+  border-radius: 20px;
+}
+
+/* ===== NAVIGATION ===== */
+.nav-menu {
+  display: flex;
+  justify-content: center;
+  gap: 113px;
+  background-color: rgb(235, 137, 137);
+  padding: 12px 0;
+  list-style: none;
+  position: relative;
+  margin: 0;
+}
+
+.nav-menu > li {
+  position: relative;
+}
+
+.nav-menu > li > a {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Dropdown */
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  min-width: 180px;
+  flex-direction: column;
+}
+
+.dropdown a {
+  color: black;
+  text-decoration: none;
+  padding: 6px 0;
+  display: block;
+  transition: 0.2s;
+}
+
+.dropdown a:hover {
+  color: purple;
+  transform: translateX(5px);
+}
+
+.nav-menu li:hover .dropdown {
+  display: flex;
+}
+
+/* ===== SEARCH BUTTON ===== */
+.search-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #333;
+  padding: 5px;
+}
+
+.search-btn:hover {
+  color: rgb(2, 2, 2);
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+}
+
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-text {
+  position: absolute;
+  top: 50%;
+  left: 60px;
+  transform: translateY(-50%);
+  color: white;
+  font-size: 22px;
+  font-weight: 400;
+  z-index: 2;
+}
+
+/* ===== LAYOUT HELPERS ===== */
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 16px;
+}
+
+.container2 {
+  display: flex;
+  justify-content: space-around;
+}
+
+.section1 {
+  background-color: #fafafa;
+  padding: 0.01cm;
+}
+
+.section2 {
+  background-color: #f6d6df;
+  padding: 0.01cm;
+}
+
+/* ===== CAROUSEL ===== */
+.carousel-wrapper {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  margin: 20px auto;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+  gap: 10px;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #111;
+  color: white;
+  font-size: 32px;
+  width: 42px;
+  height: 42px;
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 50%;
+  opacity: 0.6;
+  border: none;
+}
+
+.carousel-btn.left { left: 0; }
+.carousel-btn.right { right: 0; }
+
+/* ===== PRODUCT CARDS ===== */
+.product-card,
+.product-card-1-0,
+.product-card-1-1 {
+  flex: 0 0 auto;
+  background-color: #fff;
+  border: 1px solid #eee;
+  text-align: center;
+  padding: 12px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.product-card:hover,
+.product-card-1-0:hover,
+.product-card-1-1:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.product-card img,
+.product-card-1-0 img,
+.product-card-1-1 img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+/* Products Grid (pages.css) */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+@media (max-width: 1100px) {
+  .products-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 800px) {
+  .products-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .products-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== ADD TO CART BUTTON ===== */
+.add-to-cart {
+  background-color: transparent;
+  color: #000;
+  padding: 10px 20px;
+  border: 1px solid #000;
+  margin-top: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.add-to-cart:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+/* ===== CART ===== */
+#cart-items > div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 15px 0;
+}
+
+#cart-items img {
+  width: 90px;
+  height: auto;
+  border-radius: 8px;
+}
+
+#cart-items h4 {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+#cart-items p {
+  font-size: 14px;
+  color: #666;
+}
+
+#cart-items button {
+  background: #f2f2f2;
+  border: 1px solid #ccc;
+  padding: 4px 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#cart-items button:hover {
+  background: #000;
+  color: #fff;
+}
+
+#cart-items .remove-btn {
+  background: none;
+  border: none;
+  font-size: 13px;
+  color: #777;
+  cursor: pointer;
+}
+
+#cart-items .remove-btn:hover {
+  color: #c8102e;
+  text-decoration: underline;
+}
+
+#total {
+  margin-top: 30px;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+}
+
+a button {
+  margin-top: 20px;
+  padding: 10px 26px;
+  border-radius: 20px;
+  border: none;
+  background: #000;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+a button:hover {
+  opacity: 0.85;
+}
+
+/* ===== NO PRODUCTS ===== */
+.no-products {
+  max-width: 600px;
+  margin: 80px auto;
+  text-align: center;
+  padding: 40px;
+}
+
+.no-products h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.no-products p {
+  color: #555;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.no-products .notify-text {
+  font-weight: 500;
+  margin-top: 25px;
+}
+
+.notify-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 12px 28px;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 30px;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.notify-btn:hover {
+  background: #444;
+}
+
+/* ===== SEARCH RESULTS ===== */
+#search-results {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  margin-top: 30px;
+}
+
+#search-results .product-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background-color: #222;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+
+/* ============================================================
+   PAGES (ABOUT & CONTACT) — nga pages.css
+   ============================================================ */
+.page-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 60px;
+}
+
+.page-hero {
+  background: #f6d6df;
+  border: 1px solid #f0c2cf;
+  border-radius: 18px;
+  padding: 26px 24px;
+  margin-bottom: 22px;
+}
+
+.page-hero h2 {
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+
+.page-hero p {
+  font-size: 16px;
+  color: #333;
+}
+
+.page-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.page-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+.page-card h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.page-card p {
+  color: #444;
+  line-height: 1.6;
+}
+
+.page-list {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.page-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 18px;
+  padding: 18px 20px;
+}
+
+.page-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #000;
+  color: #fff;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-size: 14px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.page-btn:hover {
+  opacity: 0.85;
+}
+
+/* Contact Grid */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 16px;
+}
+
+.contact-form {
+  display: grid;
+  gap: 12px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-group label {
+  font-size: 13px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #000;
+  outline: none;
+}
+
+.contact-info p {
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+}
+
+.contact-hours {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #eee;
+}
+
+.contact-mini {
+  margin-top: 14px;
+  background: #f6d6df;
+  border: 1px solid #f0c2cf;
+  border-radius: 14px;
+  padding: 10px 12px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Popup */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s ease;
+  z-index: 9999;
+}
+
+.popup-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.popup-box {
+  background: #fff;
+  border-radius: 20px;
+  padding: 30px 26px;
+  text-align: center;
+  max-width: 360px;
+  width: 90%;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  animation: popupScale 0.3s ease;
+}
+
+.popup-box i {
+  font-size: 48px;
+  color: #000;
+  margin-bottom: 12px;
+}
+
+.popup-box h3 {
+  margin-bottom: 6px;
+}
+
+.popup-box p {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 18px;
+}
+
+@keyframes popupScale {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+/* Pages responsive */
+@media (max-width: 900px) {
+  .page-wrap        { padding: 24px 18px; }
+  .page-grid        { grid-template-columns: 1fr; }
+  .contact-grid     { grid-template-columns: 1fr; }
+  .form-row         { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   PRODUCT DETAIL PAGE — nga product-page.css
+   ============================================================ */
+.product-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+}
+
+.product-image img {
+  width: 100%;
+  max-width: 450px;
+}
+
+.product-details h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.product-details .price {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.product-details .description {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 900px) {
+  .product-page {
+    grid-template-columns: 1fr;
+    padding: 40px 20px;
+  }
+}
+
+/* ============================================================
+   SIGN IN PAGE — nga signin.css
+   ============================================================ */
+.signin-wrapper {
+  min-height: calc(100vh - 220px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f7f7f7;
+  padding: 40px 20px;
+}
+
+.signin-card {
+  background: #fff;
+  width: 100%;
+  max-width: 380px;
+  padding: 32px 28px;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.signin-card h2 {
+  margin-bottom: 6px;
+}
+
+.signin-card p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 22px;
+}
+
+.signin-form {
+  display: grid;
+  gap: 14px;
+}
+
+.input-group {
+  text-align: left;
+}
+
+.input-group label {
+  font-size: 13px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #000;
+}
+
+.signin-options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.signin-options a {
+  text-decoration: none;
+  color: #000;
+}
+
+.signin-btn {
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 11px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.signin-btn:hover {
+  opacity: 0.9;
+}
+
+.signin-footer {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.signin-footer a {
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* ============================================================
+   SIGN UP PAGE — nga signup.css
+   ============================================================ */
+.signup-wrapper {
+  min-height: calc(100vh - 220px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f7f7f7;
+  padding: 40px 20px;
+}
+
+.signup-card {
+  background: #fff;
+  width: 100%;
+  max-width: 420px;
+  padding: 34px 30px;
+  border-radius: 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.signup-card h2 {
+  margin-bottom: 6px;
+}
+
+.signup-card p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 22px;
+}
+
+.signup-form {
+  display: grid;
+  gap: 14px;
+}
+
+.terms {
+  text-align: left;
+  font-size: 13px;
+}
+
+.terms a {
+  color: #000;
+  text-decoration: underline;
+}
+
+.signup-btn {
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.signup-btn:hover {
+  opacity: 0.9;
+}
+
+.signup-footer {
+  margin-top: 22px;
+  font-size: 14px;
+}
+
+.signup-footer a {
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+}
