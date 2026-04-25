@@ -18,11 +18,11 @@ if(session_status() === PHP_SESSION_NONE){
 <header>
     <div class="top-bar">
         <div class="left">
-            <h1><a href="index.php">Perla Glow</a></h1>
+            <h1><a href="/phase1/index.php">Perla Glow</a></h1>
         </div>
 
         <div class="right">
-            <form action="/pages/products.php" method="get">
+            <form action="/phase1/pages/products.php" method="get">
                 <input type="search" name="q" placeholder="search..." />
                 <button type="submit" class="search-btn">
                     <i class="fas fa-search"></i>
@@ -31,18 +31,18 @@ if(session_status() === PHP_SESSION_NONE){
 
             <nav>
                 <?php if(isset($_SESSION['user'])):?>
-                    <a href="/pages/profile.php"><i class="fas fa-user"></i></a>
+                    <a href="/phase1/pages/profile.php"><i class="fas fa-user"></i></a>
 
                 <?php if($_SESSION['user']['role'] === 'admin'): ?>
-                    <a href="/pages/admin-dashboard.php"><i class="fas fa-cog"></i></a>
+                    <a href="/phase1/pages/admin-dashboard.php"><i class="fas fa-cog"></i></a>
                 <?php endif; ?>
                 
-                <a href="/pages/logout.php"><i class="fas fa-sing-out-alt"></i></a>
+                <a href="/phase1/pages/logout.php"><i class="fas fa-sing-out-alt"></i></a>
                 <?php else: ?>
-                    <a href="/pages/login.php"><i class="fas fa-user"></i></a>
+                    <a href="/phase1/pages/login.php"><i class="fas fa-user"></i></a>
                 <?php endif; ?>
 
-                <a href="/pages/cart.php"><i class="fas fa-shopping-cart"></i></a>
+                <a href="/phase1/pages/cart.php"><i class="fas fa-shopping-cart"></i></a>
             </nav>
         </div>
     </div>

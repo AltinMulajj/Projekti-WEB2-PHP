@@ -3,7 +3,7 @@
 ?>
 <footer class="footer">
     <nav>
-        <a href="/pages/contactus.php">Contact Us</a>
+        <a href="/phase1/pages/contactus.php">Contact Us</a>
         <a href="#instagram">Instagram</a>
     </nav>
     <p>&copy; <?php echo date('Y'); ?> Perla Glow</p>

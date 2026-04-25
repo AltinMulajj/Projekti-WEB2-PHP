@@ -8,7 +8,7 @@ require_once __DIR__ . '/includes/header.php';
 <main>
 
     <section class="hero">
-        <img src="/assets/images/foto4.png" alt="Perla Glow Hero" />
+        <img src="/phase1/assets/images/foto4.png" alt="Perla Glow Hero" />
         <div class="hero-text">
             <h2>Discover Your Beauty</h2>
             <p>Luxury makeup &amp; skincare curated for you</p>
@@ -18,7 +18,7 @@ require_once __DIR__ . '/includes/header.php';
     <section class="section2">
         <h2>Most Used Products</h2>
         <div class="carousel-wrapper">
-            <button class="carousel-btn left left1">$#8249</button>
+            <button class="carousel-btn left left1">&#8249;</button>
             <div class="carousel-track" id="carouselTrack1">
 
                 <?php
@@ -55,7 +55,7 @@ require_once __DIR__ . '/includes/header.php';
         <h2>Week Offers</h2>
         <div class="carousel-wrapper">
             <button class="carousel-btn left left2">&#8249;</button>
-            <div class="carousel-track" id="carousel Track2">
+            <div class="carousel-track" id="carouselTrack2">
 
                 <?php
                     $on_sale = array_filter($products, function($p){
@@ -63,8 +63,8 @@ require_once __DIR__ . '/includes/header.php';
                     });
                     foreach($on_sale as $product): ?>
 
-                        <div class="product-card">
-                            <a href="/pages/product-detail.php?id=<?php echo $product['id']; ?>">
+                    <div class="product-card">
+                            <a href="/phase1/pages/product-detail.php?id=<?php echo $product['id']; ?>">
                                 <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" />
                             </a>
                             <h3><?php echo $product['name'];?></h3>
