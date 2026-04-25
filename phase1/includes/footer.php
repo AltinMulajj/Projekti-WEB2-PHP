@@ -9,6 +9,6 @@
     <p>&copy; <?php echo date('Y'); ?> Perla Glow</p>
 </footer>
 
-<script src="/assets/js/main.js"></script>
+<script src="/phase1/assets/js/main.js"></script>
 </body>
 </html>

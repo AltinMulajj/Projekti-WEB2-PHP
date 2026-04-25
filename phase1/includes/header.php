@@ -11,7 +11,7 @@ if(session_status() === PHP_SESSION_NONE){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perla Glow</title>
-    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="stylesheet" href="/phase1/assets/css/style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
@@ -24,7 +24,7 @@ if(session_status() === PHP_SESSION_NONE){
         <div class="right">
             <form action="/pages/products.php" method="get">
                 <input type="search" name="q" placeholder="search..." />
-                <button type="submit" class="serach-btn">
+                <button type="submit" class="search-btn">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
