@@ -10,21 +10,21 @@ $errors  = [];
 $success = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name    = trim($_POST['name']    ?? '');
-    $email   = trim($_POST['email']   ?? '');
-    $phone   = trim($_POST['phone']   ?? '');
-    $message = trim($_POST['message'] ?? '');
+    $name    = Validator::sanitizeInput($_POST['name']    ?? '');
+    $email   = Validator::sanitizeInput($_POST['email']   ?? '');
+    $phone   = Validator::sanitizeInput($_POST['phone']   ?? '');
+    $message = Validator::sanitizeInput($_POST['message'] ?? '');
 
     if (empty($name)) {
         $errors[] = 'Name is required.';
     }
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (!Validator::validateEmail($email)) {
         $errors[] = 'Invalid email address.';
     }
 
-    if (!empty($phone) && !preg_match('/^\+?[0-9\s\-]{7,15}$/', $phone)) {
-        $errors[] = 'Invalid phone number.';
+    if (!empty($phone) && !Validator::validatePhone($phone)) {
+        $errors[] = 'Phone format must be: +383 4X XXX XXX';
     }
 
     if (empty($message)) {
@@ -33,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errors)) {
         $success = true;
+
     }
 }
 ?>
