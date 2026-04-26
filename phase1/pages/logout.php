@@ -1,0 +1,22 @@
+<?php
+session_start();
+
+session_unset();
+session_destroy();
+
+setcookie(
+"favorite_category",
+"",
+time()-3600,
+"/"
+);
+
+setcookie(
+"registered_user",
+"",
+time()-3600,
+"/"
+);
+
+header("Location: ../index.php");
+exit;
