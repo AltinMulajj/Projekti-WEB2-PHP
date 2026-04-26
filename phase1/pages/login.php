@@ -2,6 +2,7 @@
 session_start();
 
 require_once __DIR__ . "/../data/user-data.php";
+$users = $users ?? [];
 if(isset($_COOKIE["registered_user"])){
 
 $cookieUser = json_decode(
