@@ -37,7 +37,27 @@ $favoriteCat     = $_COOKIE['favorite_category'] ?? "None selected";
                     </span>
                 </p>
             </div>
+
+            <div class="page-card">
+                <h3><i class="fas fa-cookie-bite"></i> Your Preferences</h3>
+                <hr style="margin: 15px 0; opacity: 0.2;">
+                
+                <p><strong>Last interaction:</strong> <?php echo htmlspecialchars($lastContactName); ?></p>
+                <p><strong>Favorite Category:</strong> <?php echo htmlspecialchars($favoriteCat); ?></p>
+                
+                <div style="margin-top: 20px; padding: 10px; background: #f9f9f9; border-radius: 8px; font-size: 13px;">
+                    <p><em>Note: These preferences are stored in your browser cookies.</em></p>
+                </div>
+            </div>
+
         </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="logout.php" class="page-btn" style="text-decoration: none; display: inline-block; background: #ff4d4d;">
+                Logout from Account
+            </a>
+        </div>
+
     </div>
 </main>
 
