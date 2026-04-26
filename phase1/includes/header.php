@@ -1,8 +1,13 @@
 <?php
 
-if(session_status() === PHP_SESSION_NONE){
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+if (!defined('BASE_URL')) {
+    define('BASE_URL', '/Projekti-WEB2-PHP/phase1/');
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +44,9 @@ if(session_status() === PHP_SESSION_NONE){
                 
                 <a href="/pages/logout.php"><i class="fas fa-sing-out-alt"></i></a>
                 <?php else: ?>
-                    <a href="/pages/login.php"><i class="fas fa-user"></i></a>
+                   <a href="<?php echo BASE_URL; ?>pages/login.php">Login</a>
+
+                 <a href="<?php echo BASE_URL; ?>pages/signup.php">Sign Up</a>
                 <?php endif; ?>
 
                 <a href="/pages/cart.php"><i class="fas fa-shopping-cart"></i></a>
