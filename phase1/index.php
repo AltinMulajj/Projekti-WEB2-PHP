@@ -28,7 +28,7 @@ require_once __DIR__ . '/includes/header.php';
                 foreach($featured as $product): ?>
 
                 <div class="product-card-1-1">
-                    <a href="/pages/product-detail.php?id=<?php echo $product['id'];?>">
+                    <a href="/phase1/pages/product-detail.php?id=<?php echo $product['id'];?>">
                         <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" />
                     </a>
                     <h3><?php echo $product['name']; ?></h3>
