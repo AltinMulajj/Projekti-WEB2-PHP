@@ -8,14 +8,12 @@ if (!$category) {
     exit;
 }
 
-// FILTRIMI I PRODUCTS
 $filteredProducts = array_filter($products, function($product) use ($category) {
     return $product['category'] === $category;
 });
 ?>
 
 
-<!-- SHFAQJA E PRODUKTEVE TE FILTRUARA -->
 <h2>Category: <?php echo ucfirst($category); ?></h2>
 
 <?php if (empty($filteredProducts)): ?>
