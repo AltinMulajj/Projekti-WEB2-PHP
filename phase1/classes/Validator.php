@@ -7,7 +7,7 @@ class Validator {
     }
 
     public static function validatePhone($phone) {
-        $pattern = "/^(\+383\s|0)[4-9][0-9]\s[0-9]{3}\s[0-9]{3}$/";
+        $pattern = "/^(\+383\s|0)?4[3-9]\s[0-9]{3}\s[0-9]{3}$/";
         return preg_match($pattern, $phone);
     }
 
