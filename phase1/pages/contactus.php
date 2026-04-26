@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!empty($phone) && !Validator::validatePhone($phone)) {
-        $errors[] = 'Phone format must be: +383 4X XXX XXX';
+        $errors[] = 'Phone format must be: +383 4X XXX XXX or 04X XXX XXX';
     }
 
     if (empty($message)) {
@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
         $success = true;
 
+        setcookie("last_contact_user", $name, time() + 86400, "/");
     }
 }
 ?>
@@ -125,3 +126,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php endif; ?>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
+
+<script>
+    const closeBtn = document.getElementById('closePopup');
+    const popup = document.getElementById('successPopup');
+
+    if (closeBtn && popup) {
+        closeBtn.onclick = function() {
+            
+            popup.style.display = 'none';
+            popup.classList.remove('active');
+            
+            window.location.replace('contactus.php');
+        };
+    }
+</script>
