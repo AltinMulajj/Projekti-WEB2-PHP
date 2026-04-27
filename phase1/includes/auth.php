@@ -1,28 +1,24 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+
+function isLoggedIn(): bool {
+    return isset($_SESSION['user']);
 }
 
-function isLoggedIn() {
-    return isset($_SESSION["user"]);
-}
-
-function requireLogin() {
+function requireLogin(): void {
     if (!isLoggedIn()) {
-        header("Location: /Projekti-WEB2-PHP/phase1/pages/login.php");
+        header('Location: ' . BASE_URL . 'pages/login.php');
         exit;
     }
 }
 
-function currentUser() {
-    return $_SESSION["user"] ?? null;
+function currentUser(): ?array {
+    return $_SESSION['user'] ?? null;
 }
 
-function requireRole($role) {
+function requireRole(string $role): void {
     requireLogin();
-
-    if ($_SESSION["user"]["role"] !== $role) {
-        header("Location: /Projekti-WEB2-PHP/phase1/index.php");
+    if ($_SESSION['user']['role'] !== $role) {
+        header('Location: ' . BASE_URL . 'index.php');
         exit;
     }
 }
