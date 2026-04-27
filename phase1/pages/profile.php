@@ -2,10 +2,8 @@
 require_once __DIR__ . '/../config/session-config.php';
 require_once __DIR__ . '/../includes/header.php';
 
-if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
-    exit();
-}
+require_once __DIR__ . '/../includes/auth.php';
+requireLogin();
 
 $user = $_SESSION['user'];
 
