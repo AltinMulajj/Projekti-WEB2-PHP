@@ -8,7 +8,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "name" => $_POST["name"],
         "email" => $_POST["email"],
         "password" => $_POST["password"],
-        "role" => "user"
+        "role" => "user",
+        "favorite_category" => $_POST["favorite_category"]
     ];
 
     setcookie(
@@ -17,6 +18,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         time() + 604800,
         "/"
     );
+    setcookie(
+"favorite_category",
+$_POST["favorite_category"],
+time()+604800,
+"/"
+);
 
     header("Location: login.php");
     exit;
@@ -49,7 +56,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label>Password</label>
                 <input type="password" name="password" required>
             </div>
+<div class="input-group">
+<label>Favorite Category</label>
 
+<select name="favorite_category">
+<option value="Makeup">Makeup</option>
+<option value="Skincare">Skincare</option>
+<option value="Haircare">Haircare</option>
+</select>
+
+</div>
             <button class="signup-btn" type="submit">Sign Up</button>
         </form>
 

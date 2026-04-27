@@ -8,7 +8,7 @@ requireLogin();
 $user = $_SESSION['user'];
 
 $lastContactName = $_COOKIE['last_contact_user'] ?? "No recent contact activity";
-$favoriteCat     = $_COOKIE['favorite_category'] ?? "None selected";
+$favoriteCat = $user['favorite_category'] ?? ($_COOKIE['favorite_category'] ?? "None selected");
 ?>
 
 <main>
@@ -44,7 +44,18 @@ $favoriteCat     = $_COOKIE['favorite_category'] ?? "None selected";
                 </div>
             </div>
         </div>
+           <?php if($user["role"]=="admin"): ?>
 
+<div class="page-card">
+<h3>Admin Panel</h3>
+
+<p>You are logged in as administrator.</p>
+
+<p>Special admin privileges enabled.</p>
+
+</div>
+
+<?php endif; ?>
         <div style="text-align: center; margin-top: 30px;">
             <a href="logout.php" class="page-btn" style="text-decoration: none; display: inline-block; background: #ff4d4d;">
                 Logout from Account
