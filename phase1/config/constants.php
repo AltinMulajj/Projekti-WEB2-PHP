@@ -2,7 +2,7 @@
 
 define('SITE_NAME',    'Perla Glow');
 define('SITE_VERSION', '1.0.0');
-define('BASE_URL',     '/phase1/');
+define('BASE_URL',     '/Projekti-WEB2-PHP/phase1/');
 
 define('ASSETS_PATH', BASE_URL . 'assets/');
 define('IMAGES_PATH', ASSETS_PATH . 'images/');
