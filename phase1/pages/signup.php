@@ -3,7 +3,18 @@ session_start();
 $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$emailPattern = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+$passwordPattern = "/^(?=.*[A-Za-z])(?=.*\d).{6,}$/";
 
+if(!preg_match($emailPattern,$_POST["email"])){
+$message="Email nuk është valid.";
+}
+
+elseif(!preg_match($passwordPattern,$_POST["password"])){
+$message="Password duhet min 6 karaktere dhe 1 numër.";
+}
+
+else{
     $newUser = [
         "name" => $_POST["name"],
         "email" => $_POST["email"],
@@ -27,6 +38,7 @@ time()+604800,
 
     header("Location: login.php");
     exit;
+}
 }
 ?>
 
