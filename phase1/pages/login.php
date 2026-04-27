@@ -26,24 +26,26 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 $email=$_POST["email"];
 $password=$_POST["password"];
 
+$emailPattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+
+if(!preg_match($emailPattern,$email)){
+    $message="Email format gabim!";
+}
+
+else{
+
 foreach($users as $user){
 
 if(
 $user["email"]==$email &&
 $user["password"]==$password
+
 ){
 
 $_SESSION["user"]=$user;
 $_SESSION["is_logged_in"]=true;
 $_SESSION["role"]=$user["role"];
 $favoriteCategory=$_POST["favorite_category"];
-
-setcookie(
-"favorite_category",
-$favoriteCategory,
-time()+604800,
-"/"
-);
 
 header("Location: ../index.php");
 exit;
@@ -53,6 +55,7 @@ exit;
 }
 
 $message="Email ose password gabim!";
+}
 }
 ?>
 
