@@ -9,7 +9,6 @@ require_once __DIR__ . '/../includes/header.php';
 
 $user            = $_SESSION['user'];
 $lastContactName = $_COOKIE['last_contact_user'] ?? 'No recent contact activity';
-$favoriteCat     = $_COOKIE['favorite_category'] ?? 'None selected';
 ?>
 <main>
     <div class="page-wrap" style="margin-top:50px;margin-bottom:50px;">
@@ -33,7 +32,6 @@ $favoriteCat     = $_COOKIE['favorite_category'] ?? 'None selected';
                 <h3><i class="fas fa-cookie-bite"></i> Your Preferences</h3>
                 <hr style="margin:15px 0;opacity:0.2;">
                 <p><strong>Last contact:</strong> <?php echo htmlspecialchars($lastContactName); ?></p>
-                <p><strong>Favorite Category:</strong> <?php echo htmlspecialchars($favoriteCat); ?></p>
                 <div style="margin-top:20px;padding:10px;background:#f9f9f9;border-radius:8px;font-size:13px;">
                     <p><em>Preferences are stored in your browser cookies.</em></p>
                 </div>

@@ -5,17 +5,33 @@ require_once __DIR__ . '/../config/session-config.php';
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $newUser = [
-        'name'     => $_POST['name']     ?? '',
-        'email'    => $_POST['email']    ?? '',
-        'password' => $_POST['password'] ?? '',
-        'role'     => 'user'
-    ];
 
-    setcookie('registered_user', json_encode($newUser), time() + 604800, '/');
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
 
-    header('Location: ' . BASE_URL . 'pages/login.php');
-    exit;
+    $emailPattern = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+    $passwordPattern = "/^(?=.*[A-Za-z])(?=.*\d).{6,}$/";
+
+    if (!preg_match($emailPattern, $email)) {
+        $message = "Email nuk është valid.";
+    } 
+    elseif (!preg_match($passwordPattern, $password)) {
+        $message = "Password duhet min 6 karaktere dhe 1 numër.";
+    } 
+    else {
+
+        $newUser = [
+            'name'     => $_POST['name'] ?? '',
+            'email'    => $email,
+            'password' => $password,
+            'role'     => 'user'
+        ];
+
+        setcookie('registered_user', json_encode($newUser), time() + 604800, '/');
+
+        header('Location: ' . BASE_URL . 'pages/login.php');
+        exit;
+    }
 }
 
 require_once __DIR__ . '/../includes/header.php';

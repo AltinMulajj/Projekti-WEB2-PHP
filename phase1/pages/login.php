@@ -16,6 +16,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email    = $_POST['email']    ?? '';
     $password = $_POST['password'] ?? '';
 
+    $emailPattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+
+if(!preg_match($emailPattern,$email)){
+    $message="Email format gabim!";
+}
+
+else{
+
+
     foreach ($users as $user) {
         if ($user['email'] == $email && $user['password'] == $password) {
             $_SESSION['user']          = $user;
@@ -29,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
     $message = 'Email ose password gabim!';
+}
 }
 
 require_once __DIR__ . '/../includes/header.php';
