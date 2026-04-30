@@ -120,21 +120,6 @@ phase1/
 - **Profile** — Të dhënat e userit + preferencat nga cookies
 - **Admin Dashboard** — Statistika, tabela produktesh dhe users
 
----
-
-## Kërkesat e Plotësuara (Phase 1)
-
-| Kërkesa | Pikët | Statusi |
-|---------|-------|---------|
-| Struktura (4+ faqe, include/require, organizim) | 2 pikë | ✅ |
-| Login/Logout, sesion, 2 role, qasje sipas rolit | 2 pikë | ✅ |
-| PHP bazë: variabla, funksione, kushte, cikle, arrays, sortime | 1 pikë | ✅ |
-| OOP: min 2 klasa, constructor, get/set, enkapsulim, trashëgimi | 1 pikë | ✅ |
-| RegEx: min 2 validime server-side | 1 pikë | ✅ |
-| Sessions & Cookies | 2 pikë | ✅ |
-| Dorëzimi (repo, README, screenshot/video) | 1 pikë | ✅ |
-
----
 
 ## Shënime të Rëndësishme
 
