@@ -94,3 +94,26 @@ try {
     $products = [];
     $editProduct = null;
 }
+require_once __DIR__ . '/../includes/header.php';
+?>
+
+<main>
+
+<div class="page-wrap">
+
+    <div class="page-hero">
+        <h2>Admin Dashboard</h2>
+        <p>Manage products from dashboard</p>
+    </div>
+
+    <?php if ($message !== ''): ?>
+
+        <div style="
+            padding:12px;
+            margin-bottom:20px;
+            border-radius:10px;
+        ">
+            <?php echo $message; ?>
+        </div>
+
+    <?php endif; ?>
