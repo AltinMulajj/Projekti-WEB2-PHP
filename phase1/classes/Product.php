@@ -87,3 +87,29 @@ public static function all(array $filters = []): array
 
     return $products;
 }
+public static function create(array $data): bool
+{
+    $conn = self::db();
+
+    $stmt = mysqli_prepare(
+        $conn,
+        "INSERT INTO products
+        (id, name, price, category, image, description, featured, on_sale)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+    );
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "ssdsssii",
+        $id,
+        $name,
+        $price,
+        $category,
+        $image,
+        $description,
+        $featured,
+        $on_sale
+    );
+
+    return mysqli_stmt_execute($stmt);
+}
