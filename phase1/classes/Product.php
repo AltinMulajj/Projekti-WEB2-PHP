@@ -113,3 +113,48 @@ public static function create(array $data): bool
 
     return mysqli_stmt_execute($stmt);
 }
+public static function update(string $id, array $data): bool
+{
+    $conn = self::db();
+
+    $stmt = mysqli_prepare(
+        $conn,
+        "UPDATE products
+        SET name = ?,
+            price = ?,
+            category = ?,
+            image = ?,
+            description = ?,
+            featured = ?,
+            on_sale = ?
+        WHERE id = ?"
+    );
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "sdsssiis",
+        $name,
+        $price,
+        $category,
+        $image,
+        $description,
+        $featured,
+        $on_sale,
+        $id
+    );
+
+    return mysqli_stmt_execute($stmt);
+}
+public static function delete(string $id): bool
+{
+    $conn = self::db();
+
+    $stmt = mysqli_prepare(
+        $conn,
+        "DELETE FROM products WHERE id = ?"
+    );
+
+    mysqli_stmt_bind_param($stmt, "s", $id);
+
+    return mysqli_stmt_execute($stmt);
+}
