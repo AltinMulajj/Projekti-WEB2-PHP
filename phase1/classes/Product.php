@@ -33,3 +33,21 @@ class Product
         $this->on_sale = $on_sale;
     }
 }
+private static function db()
+{
+    if (self::$conn === null) {
+
+        self::$conn = mysqli_connect(
+            DB_HOST,
+            DB_USER,
+            DB_PASS,
+            DB_NAME
+        );
+
+        if (!self::$conn) {
+            die("Database connection failed: " . mysqli_connect_error());
+        }
+    }
+
+    return self::$conn;
+}
