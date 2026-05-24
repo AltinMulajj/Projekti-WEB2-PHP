@@ -1,96 +1,154 @@
-<?php
+require_once __DIR__ . '/../config/database.php';
 
-
-class Product {
+class Product
+{
+    private static $conn = null;
 
     private string $id;
     private string $name;
-    private float  $price;
+    private float $price;
     private string $category;
-    private string $image;
     private string $description;
-    private bool   $featured;
-    private bool   $on_sale;
+    private bool $featured;
+    private bool $on_sale;
 
-  
     public function __construct(
         string $id,
         string $name,
-        float  $price,
+        float $price,
         string $category,
-        string $image,
         string $description,
-        bool   $featured = false,
-        bool   $on_sale  = false
+        bool $featured = false,
+        bool $on_sale = false
     ) {
-        $this->id          = $id;
-        $this->name        = $name;
-        $this->price       = $price;
-        $this->category    = $category;
-        $this->image       = $image;
-        $this->description = $description;
-        $this->featured    = $featured;
-        $this->on_sale     = $on_sale;
-    }
-
-
-    public function getId():          string { return $this->id; }
-    public function getName():        string { return $this->name; }
-    public function getPrice():       float  { return $this->price; }
-    public function getCategory():    string { return $this->category; }
-    public function getImage():       string { return $this->image; }
-    public function getDescription(): string { return $this->description; }
-    public function isFeatured():     bool   { return $this->featured; }
-    public function isOnSale():       bool   { return $this->on_sale; }
-
-
-    public function setName(string $name): void {
+        $this->id = $id;
         $this->name = $name;
-    }
-
-    public function setPrice(float $price): void {
-        // Cmimi nuk mund te jete negativ
-        if ($price < 0) return;
         $this->price = $price;
-    }
-
-    public function setFeatured(bool $featured): void {
+        $this->category = $category;
+        $this->description = $description;
         $this->featured = $featured;
-    }
-
-    public function setOnSale(bool $on_sale): void {
         $this->on_sale = $on_sale;
     }
+}
+private static function db()
+{
+    if (self::$conn === null) {
 
-
-    public function getFormattedPrice(): string {
-        return number_format($this->price, 2) . '€';
-    }
-
-    public static function fromArray(array $data): self {
-        return new self(
-            $data['id'],
-            $data['name'],
-            $data['price'],
-            $data['category'],
-            $data['image'],
-            $data['description'],
-            $data['featured'] ?? false,
-            $data['on_sale']  ?? false
+        self::$conn = mysqli_connect(
+            DB_HOST,
+            DB_USER,
+            DB_PASS,
+            DB_NAME
         );
+
+        if (!self::$conn) {
+            die("Database connection failed: " . mysqli_connect_error());
+        }
     }
 
-  
-    public function toArray(): array {
-        return [
-            'id'          => $this->id,
-            'name'        => $this->name,
-            'price'       => $this->price,
-            'category'    => $this->category,
-            'image'       => $this->image,
-            'description' => $this->description,
-            'featured'    => $this->featured,
-            'on_sale'     => $this->on_sale,
-        ];
+    return self::$conn;
+}
+public static function all(array $filters = []): array
+{
+    $conn = self::db();
+
+    $sql = "SELECT * FROM products WHERE 1=1";
+
+    if (!empty($filters['q'])) {
+
+        $search = mysqli_real_escape_string($conn, $filters['q']);
+
+        $sql .= " AND (
+            name LIKE '%$search%' 
+            OR description LIKE '%$search%' 
+            OR category LIKE '%$search%'
+        )";
     }
+
+    if (!empty($filters['category']) && $filters['category'] !== 'all') {
+
+        $category = mysqli_real_escape_string($conn, $filters['category']);
+
+        $sql .= " AND category = '$category'";
+    }
+
+    $sql .= " ORDER BY id DESC";
+
+    $result = mysqli_query($conn, $sql);
+
+    $products = [];
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $products[] = $row;
+    }
+
+    return $products;
+}
+public static function create(array $data): bool
+{
+    $conn = self::db();
+
+    $stmt = mysqli_prepare(
+        $conn,
+        "INSERT INTO products
+        (id, name, price, category, description, featured, on_sale)
+        VALUES (?, ?, ?, ?, ?, ?, ?)"
+    );
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "ssdsssii",
+        $id,
+        $name,
+        $price,
+        $category,
+        $description,
+        $featured,
+        $on_sale
+    );
+
+    return mysqli_stmt_execute($stmt);
+}
+public static function update(string $id, array $data): bool
+{
+    $conn = self::db();
+
+    $stmt = mysqli_prepare(
+        $conn,
+        "UPDATE products
+        SET name = ?,
+            price = ?,
+            category = ?,
+            description = ?,
+            featured = ?,
+            on_sale = ?
+        WHERE id = ?"
+    );
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "sdsssiis",
+        $name,
+        $price,
+        $category,
+        $description,
+        $featured,
+        $on_sale,
+        $id
+    );
+
+    return mysqli_stmt_execute($stmt);
+}
+public static function delete(string $id): bool
+{
+    $conn = self::db();
+
+    $stmt = mysqli_prepare(
+        $conn,
+        "DELETE FROM products WHERE id = ?"
+    );
+
+    mysqli_stmt_bind_param($stmt, "s", $id);
+
+    return mysqli_stmt_execute($stmt);
 }
