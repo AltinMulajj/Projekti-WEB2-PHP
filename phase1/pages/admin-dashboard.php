@@ -117,7 +117,7 @@ require_once __DIR__ . '/../includes/header.php';
         </div>
 
     <?php endif; ?>
-    
+
     <div class="page-card" style="margin-bottom:25px;">
 
     <h3 style="margin-bottom:20px;">
@@ -131,8 +131,31 @@ require_once __DIR__ . '/../includes/header.php';
         gap:15px;
     ">
 
-        <input
+    <input
         type="hidden"
         name="action"
         value="<?php echo $editProduct ? 'update' : 'create'; ?>"
-        >
+    >
+        <input
+        type="text"
+        name="name"
+        placeholder="Product name"
+        value="<?php echo htmlspecialchars($editProduct['name'] ?? ''); ?>"
+        required
+    >
+
+    <input
+        type="number"
+        step="0.01"
+        name="price"
+        placeholder="Price"
+        value="<?php echo htmlspecialchars($editProduct['price'] ?? ''); ?>"
+        required
+    >
+
+    <textarea
+        name="description"
+        rows="5"
+        required
+        
+    ><?php echo htmlspecialchars($editProduct['description'] ?? ''); ?></textarea>
