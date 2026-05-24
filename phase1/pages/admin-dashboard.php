@@ -159,3 +159,16 @@ require_once __DIR__ . '/../includes/header.php';
         required
         
     ><?php echo htmlspecialchars($editProduct['description'] ?? ''); ?></textarea>
+    <div class="page-card" style="margin-bottom:25px;">
+
+    <h3 style="margin-bottom:20px;">
+        Search Products
+    </h3>
+
+    <form method="GET"
+    style="
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+        align-items:center;
+    ">
