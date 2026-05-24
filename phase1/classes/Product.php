@@ -1,3 +1,4 @@
+<?php
 require_once __DIR__ . '/../config/database.php';
 
 class Product
@@ -29,9 +30,8 @@ class Product
         $this->featured = $featured;
         $this->on_sale = $on_sale;
     }
-}
-private static function db()
-{
+
+public static function db(){
     if (self::$conn === null) {
 
         self::$conn = mysqli_connect(
@@ -152,3 +152,5 @@ public static function delete(string $id): bool
 
     return mysqli_stmt_execute($stmt);
 }
+}
+?>
