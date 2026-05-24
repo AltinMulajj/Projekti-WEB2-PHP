@@ -48,39 +48,6 @@ public static function db(){
 
     return self::$conn;
 }
-public static function create(array $data): bool
-{
-    $conn = self::db();
-
-    $id = trim($data['id'] ?? '');
-    $name = trim($data['name'] ?? '');
-    $price = (float)($data['price'] ?? 0);
-    $category = trim($data['category'] ?? '');
-    $description = trim($data['description'] ?? '');
-    $featured = !empty($data['featured']) ? 1 : 0;
-    $on_sale = !empty($data['on_sale']) ? 1 : 0;
-
-    $stmt = mysqli_prepare(
-        $conn,
-        "INSERT INTO products
-        (id, name, price, category, description, featured, on_sale)
-        VALUES (?, ?, ?, ?, ?, ?, ?)"
-    );
-
-    mysqli_stmt_bind_param(
-        $stmt,
-        "ssdssii",
-        $id,
-        $name,
-        $price,
-        $category,
-        $description,
-        $featured,
-        $on_sale
-    );
-
-    return mysqli_stmt_execute($stmt);
-}
 public static function all(array $filters = []): array
 {
     $conn = self::db();
@@ -121,6 +88,14 @@ public static function create(array $data): bool
 {
     $conn = self::db();
 
+    $id = trim($data['id'] ?? '');
+    $name = trim($data['name'] ?? '');
+    $price = (float)($data['price'] ?? 0);
+    $category = trim($data['category'] ?? '');
+    $description = trim($data['description'] ?? '');
+    $featured = !empty($data['featured']) ? 1 : 0;
+    $on_sale = !empty($data['on_sale']) ? 1 : 0;
+
     $stmt = mysqli_prepare(
         $conn,
         "INSERT INTO products
@@ -138,36 +113,6 @@ public static function create(array $data): bool
         $description,
         $featured,
         $on_sale
-    );
-
-    return mysqli_stmt_execute($stmt);
-}
-public static function update(string $id, array $data): bool
-{
-    $conn = self::db();
-
-    $stmt = mysqli_prepare(
-        $conn,
-        "UPDATE products
-        SET name = ?,
-            price = ?,
-            category = ?,
-            description = ?,
-            featured = ?,
-            on_sale = ?
-        WHERE id = ?"
-    );
-
-    mysqli_stmt_bind_param(
-        $stmt,
-        "sdsssiis",
-        $name,
-        $price,
-        $category,
-        $description,
-        $featured,
-        $on_sale,
-        $id
     );
 
     return mysqli_stmt_execute($stmt);
