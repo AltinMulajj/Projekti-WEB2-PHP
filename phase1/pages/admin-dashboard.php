@@ -70,3 +70,27 @@ try {
             $messageType = 'error';
         }
     }
+        $search = $_GET['q'] ?? '';
+    $category = $_GET['category'] ?? 'all';
+    $sort = $_GET['sort'] ?? '';
+
+    $products = Product::all([
+        'q' => $search,
+        'category' => $category,
+        'sort' => $sort
+    ]);
+
+    $editProduct = null;
+
+    if (!empty($_GET['edit'])) {
+        $editProduct = Product::find($_GET['edit']);
+    }
+
+} catch (Throwable $e) {
+
+    $message = $e->getMessage();
+    $messageType = 'error';
+
+    $products = [];
+    $editProduct = null;
+}
