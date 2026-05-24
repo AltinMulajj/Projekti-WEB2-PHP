@@ -117,3 +117,22 @@ require_once __DIR__ . '/../includes/header.php';
         </div>
 
     <?php endif; ?>
+    
+    <div class="page-card" style="margin-bottom:25px;">
+
+    <h3 style="margin-bottom:20px;">
+        <?php echo $editProduct ? 'Edit Product' : 'Add New Product'; ?>
+    </h3>
+
+    <form method="POST"
+    style="
+        display:grid;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:15px;
+    ">
+
+        <input
+        type="hidden"
+        name="action"
+        value="<?php echo $editProduct ? 'update' : 'create'; ?>"
+        >
