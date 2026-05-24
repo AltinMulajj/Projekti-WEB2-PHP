@@ -8,7 +8,6 @@ class Product
     private string $name;
     private float $price;
     private string $category;
-    private string $image;
     private string $description;
     private bool $featured;
     private bool $on_sale;
@@ -18,7 +17,6 @@ class Product
         string $name,
         float $price,
         string $category,
-        string $image,
         string $description,
         bool $featured = false,
         bool $on_sale = false
@@ -27,7 +25,6 @@ class Product
         $this->name = $name;
         $this->price = $price;
         $this->category = $category;
-        $this->image = $image;
         $this->description = $description;
         $this->featured = $featured;
         $this->on_sale = $on_sale;
@@ -94,8 +91,8 @@ public static function create(array $data): bool
     $stmt = mysqli_prepare(
         $conn,
         "INSERT INTO products
-        (id, name, price, category, image, description, featured, on_sale)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+        (id, name, price, category, description, featured, on_sale)
+        VALUES (?, ?, ?, ?, ?, ?, ?)"
     );
 
     mysqli_stmt_bind_param(
@@ -105,7 +102,6 @@ public static function create(array $data): bool
         $name,
         $price,
         $category,
-        $image,
         $description,
         $featured,
         $on_sale
@@ -123,7 +119,6 @@ public static function update(string $id, array $data): bool
         SET name = ?,
             price = ?,
             category = ?,
-            image = ?,
             description = ?,
             featured = ?,
             on_sale = ?
@@ -136,7 +131,6 @@ public static function update(string $id, array $data): bool
         $name,
         $price,
         $category,
-        $image,
         $description,
         $featured,
         $on_sale,
