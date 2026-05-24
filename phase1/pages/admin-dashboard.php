@@ -8,3 +8,21 @@ requireRole('admin');
 
 $message = '';
 $messageType = 'success';
+try {
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+
+        $action = $_POST['action'];
+
+        if ($action === 'create') {
+
+            if (Product::create($_POST)) {
+
+                $message = 'Produkti u shtua me sukses.';
+
+            } else {
+
+                $message = 'Shtimi i produktit deshtoi.';
+                $messageType = 'error';
+            }
+        }
