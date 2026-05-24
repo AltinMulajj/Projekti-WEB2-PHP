@@ -169,18 +169,6 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
 
                 <div style="grid-column:1 / -1;">
-                    <label style="display:block;margin-bottom:6px;">Image</label>
-                    <input
-                        type="text"
-                        name="image"
-                        value="<?php echo htmlspecialchars($editProduct['image'] ?? ''); ?>"
-                        required
-                        style="width:100%;padding:10px;"
-                        placeholder="/phase1/assets/images/product.jpg"
-                    >
-                </div>
-
-                <div style="grid-column:1 / -1;">
                     <label style="display:block;margin-bottom:6px;">Description</label>
                     <textarea
                         name="description"
@@ -240,7 +228,6 @@ require_once __DIR__ . '/../includes/header.php';
             <table style="width:100%;border-collapse:collapse;margin-top:15px;min-width:900px;">
                 <thead>
                     <tr style="background:#f6d6df;">
-                        <th style="padding:10px;text-align:left;">Image</th>
                         <th style="padding:10px;text-align:left;">Name</th>
                         <th style="padding:10px;text-align:left;">Category</th>
                         <th style="padding:10px;text-align:left;">Price</th>
@@ -252,9 +239,7 @@ require_once __DIR__ . '/../includes/header.php';
                 <tbody>
                     <?php foreach ($products as $p): ?>
                         <tr style="border-bottom:1px solid #eee;">
-                            <td style="padding:10px;">
-                                <img src="<?php echo htmlspecialchars($p['image']); ?>" alt="" style="width:60px;height:60px;object-fit:cover;border-radius:8px;">
-                            </td>
+    
                             <td style="padding:10px;"><?php echo htmlspecialchars($p['name']); ?></td>
                             <td style="padding:10px;"><?php echo htmlspecialchars($p['category']); ?></td>
                             <td style="padding:10px;"><?php echo number_format((float)$p['price'], 2); ?>€</td>
