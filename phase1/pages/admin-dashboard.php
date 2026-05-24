@@ -172,3 +172,49 @@ require_once __DIR__ . '/../includes/header.php';
         flex-wrap:wrap;
         align-items:center;
     ">
+    <div class="page-card">
+
+    <h3 style="margin-bottom:20px;">
+        All Products
+    </h3>
+
+    <table style="
+        width:100%;
+        border-collapse:collapse;
+    ">
+
+        <tbody>
+
+        <?php foreach ($products as $p): ?>
+
+            <tr>
+
+                <td>
+                    <?php echo htmlspecialchars($p['name']); ?>
+                </td>
+
+                <td>
+
+                    <a
+                    href="?edit=<?php echo urlencode($p['id']); ?>"
+                    >
+                        Edit
+                    </a>
+
+                    <a
+                    href="?delete=<?php echo urlencode($p['id']); ?>"
+                    >
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+        <?php endforeach; ?>
+
+        </tbody>
+
+    </table>
+
+</div>
