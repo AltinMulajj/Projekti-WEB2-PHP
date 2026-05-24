@@ -26,3 +26,17 @@ try {
                 $messageType = 'error';
             }
         }
+        if ($action === 'update') {
+
+            $id = trim($_POST['id']);
+
+            if ($id !== '' && Product::update($id, $_POST)) {
+
+                $message = 'Produkti u perditesua me sukses.';
+
+            } else {
+
+                $message = 'Perditesimi deshtoi.';
+                $messageType = 'error';
+            }
+        }
