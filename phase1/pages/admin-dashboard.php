@@ -40,3 +40,33 @@ try {
                 $messageType = 'error';
             }
         }
+                if ($action === 'delete') {
+
+            $id = trim($_POST['id']);
+
+            if ($id !== '' && Product::delete($id)) {
+
+                $message = 'Produkti u fshi me sukses.';
+
+            } else {
+
+                $message = 'Fshirja deshtoi.';
+                $messageType = 'error';
+            }
+        }
+    }
+
+    if (isset($_GET['delete'])) {
+
+        $id = trim($_GET['delete']);
+
+        if ($id !== '' && Product::delete($id)) {
+
+            $message = 'Produkti u fshi me sukses.';
+
+        } else {
+
+            $message = 'Fshirja deshtoi.';
+            $messageType = 'error';
+        }
+    }
