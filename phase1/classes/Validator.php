@@ -1,18 +1,18 @@
 <?php
-
 class Validator {
 
-    public static function validateEmail(string $email): bool {
-        return preg_match("/^[\w\.-]+@[\w\.-]+\.\w+$/", $email) === 1;
+    public static function validateEmail($email) {
+        $regexp = "/^[^0-9][A-z0-9_]+([.][A-z0-9_]+)*[@][A-z0-9_]+([.][A-z0-9_]+)*[.][A-z]{2,4}$/";
+        return preg_match($regexp, $email);
     }
 
-    public static function validateNumber(string $number): bool {
-        return preg_match("/^[0-9]+$/", $number) === 1;
+    public static function validatePhone($phone) {
+        $pattern = "/^(\+383\s|0)?4[3-9]\s[0-9]{3}\s[0-9]{3}$/";
+        return preg_match($pattern, $phone);
     }
 
-    public static function validatePassword(string $password): bool {
-        // min 6 karaktere + 1 numër
-        return preg_match("/^(?=.*\d).{6,}$/", $password) === 1;
+    public static function sanitizeInput($data) {
+        return htmlspecialchars(stripslashes(trim($data)));
     }
 }
 ?>
