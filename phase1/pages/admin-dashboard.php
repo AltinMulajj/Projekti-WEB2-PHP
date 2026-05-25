@@ -116,7 +116,7 @@ try {
         <div class="page-card" style="margin-top:20px;">
             <h3><?php echo $editProduct ? 'Edit Product' : 'Add New Product'; ?></h3>
 
-            <form method="POST" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:15px;">
+            <form method="POST" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:15px;" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="<?php echo $editProduct ? 'update' : 'create'; ?>">
 
                 <div>
@@ -168,10 +168,11 @@ try {
                 </div>
 
                 <div>
-                    <label style="display:block;margin-bottom:6px;">Image</label>
+                    <label style="display:block;margin-bottom:6px;">Product Image</label>
                     <input
-                        type="text"
+                        type="file"
                         name="image"
+                        accept="image/*"
                         value="<?php echo htmlspecialchars($editProduct['image'] ?? ''); ?>"
                         required
                         style="width:100%;padding:10px;"

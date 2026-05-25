@@ -7,6 +7,12 @@ class User {
 
     private static $conn = null;
 
+    private int $id;
+    private string $name;
+    private string $email;
+    private string $password;
+    private string $role;
+
     public static function db() {
 
         if (self::$conn === null) {
@@ -28,6 +34,7 @@ class User {
         return self::$conn;
     }
 
+    // CREATE
     public static function register(
         string $name,
         string $email,
@@ -92,6 +99,7 @@ class User {
         return mysqli_stmt_execute($stmt);
     }
 
+    // LOGIN
     public static function login(
         string $email,
         string $password
@@ -131,6 +139,115 @@ class User {
         return false;
     }
 
+    // READ ALL
+    public static function all(): array {
+
+        $conn = self::db();
+
+        $sql = "SELECT * FROM users ORDER BY id DESC";
+
+        $result = mysqli_query($conn, $sql);
+
+        $users = [];
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $users[] = $row;
+        }
+
+        return $users;
+    }
+
+    // READ ONE
+    public static function find(
+        int $id
+    ): ?array {
+
+        $conn = self::db();
+
+        $stmt = mysqli_prepare(
+            $conn,
+            "SELECT * FROM users
+             WHERE id = ?
+             LIMIT 1"
+        );
+
+        mysqli_stmt_bind_param(
+            $stmt,
+            "i",
+            $id
+        );
+
+        mysqli_stmt_execute($stmt);
+
+        $result = mysqli_stmt_get_result($stmt);
+
+        $user = mysqli_fetch_assoc($result);
+
+        return $user ?: null;
+    }
+
+    // UPDATE
+    public static function update(
+        int $id,
+        array $data
+    ): bool {
+
+        $conn = self::db();
+
+        $name = trim($data['name']);
+        $email = trim($data['email']);
+        $role = trim($data['role']);
+
+        if (empty($name) || empty($email) || empty($role)) {
+            return false;
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+
+        $stmt = mysqli_prepare(
+            $conn,
+            "UPDATE users
+             SET name = ?, email = ?, role = ?
+             WHERE id = ?"
+        );
+
+        mysqli_stmt_bind_param(
+            $stmt,
+            "sssi",
+            $name,
+            $email,
+            $role,
+            $id
+        );
+
+        return mysqli_stmt_execute($stmt);
+    }
+
+    // DELETE
+    public static function delete(
+        int $id
+    ): bool {
+
+        $conn = self::db();
+
+        $stmt = mysqli_prepare(
+            $conn,
+            "DELETE FROM users
+             WHERE id = ?"
+        );
+
+        mysqli_stmt_bind_param(
+            $stmt,
+            "i",
+            $id
+        );
+
+        return mysqli_stmt_execute($stmt);
+    }
+
+    // ESCAPE
     public static function escape(
         string $value
     ): string {

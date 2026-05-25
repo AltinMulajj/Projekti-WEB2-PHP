@@ -93,7 +93,20 @@ public static function create(array $data): bool
     $price = (float)$data['price'];
     $category = trim($data['category']);
     $description = trim($data['description']);
-    $image = trim($data['image']);
+    $imagePath = '';
+
+if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+
+    $uploadDir = __DIR__ . '/../assets/images/';
+
+    $fileName = time() . '_' . basename($_FILES['image']['name']);
+
+    $targetFile = $uploadDir . $fileName;
+
+    move_uploaded_file($_FILES['image']['tmp_name'], $targetFile);
+
+    $imagePath = 'assets/images/' . $fileName;
+}
 
     $featured = isset($data['featured']) ? 1 : 0;
     $on_sale = isset($data['on_sale']) ? 1 : 0;
@@ -112,7 +125,7 @@ public static function create(array $data): bool
         $name,
         $price,
         $category,
-        $image,
+        $imagePath,
         $description,
         $featured,
         $on_sale
@@ -128,7 +141,22 @@ public static function update(string $id, array $data): bool
     $price = (float)$data['price'];
     $category = trim($data['category']);
     $description = trim($data['description']);
-    $image = trim($data['image']);
+    $currentProduct = self::find($id);
+
+$imagePath = $currentProduct['image'];
+
+if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+
+    $uploadDir = __DIR__ . '/../assets/images/';
+
+    $fileName = time() . '_' . basename($_FILES['image']['name']);
+
+    $targetFile = $uploadDir . $fileName;
+
+    move_uploaded_file($_FILES['image']['tmp_name'], $targetFile);
+
+    $imagePath = 'assets/images/' . $fileName;
+}
 
     $featured = isset($data['featured']) ? 1 : 0;
     $on_sale = isset($data['on_sale']) ? 1 : 0;
@@ -152,7 +180,7 @@ public static function update(string $id, array $data): bool
         $name,
         $price,
         $category,
-        $image,
+        $imagePath,
         $description,
         $featured,
         $on_sale,
