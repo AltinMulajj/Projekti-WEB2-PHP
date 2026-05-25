@@ -1,3 +1,4 @@
+<?php
 require_once __DIR__ . '/../config/database.php';
 
 class Product
@@ -29,9 +30,8 @@ class Product
         $this->featured = $featured;
         $this->on_sale = $on_sale;
     }
-}
-private static function db()
-{
+
+public static function db(){
     if (self::$conn === null) {
 
         self::$conn = mysqli_connect(
@@ -88,6 +88,15 @@ public static function create(array $data): bool
 {
     $conn = self::db();
 
+    $id = trim($data['id']);
+    $name = trim($data['name']);
+    $price = (float)$data['price'];
+    $category = trim($data['category']);
+    $description = trim($data['description']);
+
+    $featured = isset($data['featured']) ? 1 : 0;
+    $on_sale = isset($data['on_sale']) ? 1 : 0;
+
     $stmt = mysqli_prepare(
         $conn,
         "INSERT INTO products
@@ -97,7 +106,7 @@ public static function create(array $data): bool
 
     mysqli_stmt_bind_param(
         $stmt,
-        "ssdsssii",
+        "ssdssii",
         $id,
         $name,
         $price,
@@ -127,7 +136,7 @@ public static function update(string $id, array $data): bool
 
     mysqli_stmt_bind_param(
         $stmt,
-        "sdsssiis",
+        "sdssiis",
         $name,
         $price,
         $category,
@@ -152,3 +161,5 @@ public static function delete(string $id): bool
 
     return mysqli_stmt_execute($stmt);
 }
+}
+?>
