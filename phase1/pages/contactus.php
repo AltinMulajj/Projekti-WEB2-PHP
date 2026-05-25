@@ -5,23 +5,49 @@ require_once __DIR__ . '/../classes/Validator.php';
 require_once __DIR__ . '/../includes/header.php';
 
 $favoriteCategory = $_COOKIE['favorite_category'] ?? null;
-$errors  = [];
+
+$errors = [];
 $success = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name    = Validator::sanitizeInput($_POST['name']    ?? '');
-    $email   = Validator::sanitizeInput($_POST['email']   ?? '');
-    $phone   = Validator::sanitizeInput($_POST['phone']   ?? '');
+
+    $name = Validator::sanitizeInput($_POST['name'] ?? '');
+
+    $email = Validator::sanitizeInput($_POST['email'] ?? '');
+
+    $phone = Validator::sanitizeInput($_POST['phone'] ?? '');
+
     $message = Validator::sanitizeInput($_POST['message'] ?? '');
 
-    if (empty($name))                                          $errors[] = 'Name is required.';
-    if (!Validator::validateEmail($email))                     $errors[] = 'Invalid email address.';
-    if (!empty($phone) && !Validator::validatePhone($phone))   $errors[] = 'Phone format: +383 4X XXX XXX';
-    if (empty($message))                                       $errors[] = 'Message is required.';
+    if (empty($name)) {
+        $errors[] = 'Name is required.';
+    }
+
+    if (!Validator::validateEmail($email)) {
+        $errors[] = 'Invalid email address.';
+    }
+
+    if (
+        !empty($phone) &&
+        !Validator::validatePhone($phone)
+    ) {
+        $errors[] = 'Phone format: +383 4X XXX XXX';
+    }
+
+    if (empty($message)) {
+        $errors[] = 'Message is required.';
+    }
 
     if (empty($errors)) {
+
         $success = true;
-        setcookie('last_contact_user', $name, time() + 86400, '/');
+
+        setcookie(
+            'last_contact_user',
+            $name,
+            time() + 86400,
+            '/'
+        );
     }
 }
 ?>
