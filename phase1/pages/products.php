@@ -39,6 +39,7 @@ if (!empty($search)) {
             <form method="GET">
                 <input type="hidden" name="category" value="<?php echo htmlspecialchars($category); ?>">
                 <select name="sort" onchange="this.form.submit()">
+
                     <option value="">Default</option>
                     <option value="price_asc"  <?php echo $sort==='price_asc'  ?'selected':''; ?>>Price: Low to High</option>
                     <option value="price_desc" <?php echo $sort==='price_desc' ?'selected':''; ?>>Price: High to Low</option>
@@ -46,6 +47,7 @@ if (!empty($search)) {
                 </select>
             </form>
         </div>
+        
         <?php if (empty($products)): ?>
             <div class="no-products">
                 <h2>No products found</h2>

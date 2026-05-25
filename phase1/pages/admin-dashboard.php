@@ -167,6 +167,18 @@ try {
                     >
                 </div>
 
+                <div>
+                    <label style="display:block;margin-bottom:6px;">Image</label>
+                    <input
+                        type="text"
+                        name="image"
+                        value="<?php echo htmlspecialchars($editProduct['image'] ?? ''); ?>"
+                        required
+                        style="width:100%;padding:10px;"
+                        placeholder="assets/images/product.jpg"
+                    >
+                </div>
+
                 <div style="grid-column:1 / -1;">
                     <label style="display:block;margin-bottom:6px;">Description</label>
                     <textarea

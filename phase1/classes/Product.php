@@ -93,6 +93,7 @@ public static function create(array $data): bool
     $price = (float)$data['price'];
     $category = trim($data['category']);
     $description = trim($data['description']);
+    $image = trim($data['image']);
 
     $featured = isset($data['featured']) ? 1 : 0;
     $on_sale = isset($data['on_sale']) ? 1 : 0;
@@ -100,17 +101,18 @@ public static function create(array $data): bool
     $stmt = mysqli_prepare(
         $conn,
         "INSERT INTO products
-        (id, name, price, category, description, featured, on_sale)
-        VALUES (?, ?, ?, ?, ?, ?, ?)"
+        (id, name, price, category, image, description, featured, on_sale)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
     );
 
     mysqli_stmt_bind_param(
         $stmt,
-        "ssdssii",
+        "ssdsssii",
         $id,
         $name,
         $price,
         $category,
+        $image,
         $description,
         $featured,
         $on_sale
@@ -126,6 +128,7 @@ public static function update(string $id, array $data): bool
     $price = (float)$data['price'];
     $category = trim($data['category']);
     $description = trim($data['description']);
+    $image = trim($data['image']);
 
     $featured = isset($data['featured']) ? 1 : 0;
     $on_sale = isset($data['on_sale']) ? 1 : 0;
@@ -136,6 +139,7 @@ public static function update(string $id, array $data): bool
         SET name = ?,
             price = ?,
             category = ?,
+            image = ?,
             description = ?,
             featured = ?,
             on_sale = ?
@@ -144,10 +148,11 @@ public static function update(string $id, array $data): bool
 
     mysqli_stmt_bind_param(
         $stmt,
-        "sdssiis",
+        "sdsssiis",
         $name,
         $price,
         $category,
+        $image,
         $description,
         $featured,
         $on_sale,
