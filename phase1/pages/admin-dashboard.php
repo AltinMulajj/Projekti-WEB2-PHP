@@ -12,6 +12,11 @@ require_once __DIR__ . '/../includes/header.php';
 
 $message = '';
 $messageType = 'success';
+$search = '';
+$category = 'all';
+$sort = '';
+$products = [];
+$editProduct = null;
 
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
@@ -199,6 +204,13 @@ try {
                 </div>
             </form>
         </div>
+        <div style="margin:20px 0;text-align:right;">
+    <a href="<?php echo BASE_URL; ?>pages/admin-users.php"
+       class="page-btn">
+
+        Manage Users
+    </a>
+</div>
 
         <div class="page-card" style="margin-top:20px;">
             <h3>Search Products</h3>
