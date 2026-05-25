@@ -1,5 +1,7 @@
 <?php
 
+
+require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/constants.php';
 require_once __DIR__ . '/../config/database.php';
 
@@ -258,5 +260,49 @@ class User {
             'UTF-8'
         );
     }
+    public static function all(): array {
+    $conn = self::db();
+
+    $result = mysqli_query(
+        $conn,
+        "SELECT id, name, email, role, created_at FROM users ORDER BY id DESC"
+    );
+
+    $users = [];
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $users[] = $row;
+    }
+
+    return $users;
+}
+
+public static function updateRole(int $id, string $role): bool {
+    $conn = self::db();
+
+    $stmt = mysqli_prepare(
+        $conn,
+        "UPDATE users SET role=? WHERE id=?"
+    );
+
+    mysqli_stmt_bind_param($stmt, "si", $role, $id);
+
+    return mysqli_stmt_execute($stmt);
+}
+
+public static function delete(int $id): bool {
+    $conn = self::db();
+
+    $stmt = mysqli_prepare(
+        $conn,
+        "DELETE FROM users WHERE id=?"
+    );
+
+    mysqli_stmt_bind_param($stmt, "i", $id);
+
+    return mysqli_stmt_execute($stmt);
+}
+
 }
 ?>
+
