@@ -73,4 +73,5 @@ if (!empty($search)) {
         <?php endif; ?>
     </div>
 </main>
+<script src="../assets/js/ajax.js"></script>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
