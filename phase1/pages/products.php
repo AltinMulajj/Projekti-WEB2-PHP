@@ -5,6 +5,16 @@ require_once __DIR__ . '/../data/products-data.php';
 require_once __DIR__ . '/../includes/header.php';
 
 $category = $_GET['category'] ?? 'all';
+
+if ($category !== 'all') {
+
+    setcookie(
+        'favorite_category',
+        $category,
+        time() + (86400 * 30),
+        '/'
+    );
+}
 if ($category !== 'all') {
     $products = array_filter($products, fn($p) => $p['category'] === $category);
 }
