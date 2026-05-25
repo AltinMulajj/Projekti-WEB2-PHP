@@ -22,58 +22,86 @@ require_once __DIR__ . '/../includes/header.php';
 ?>
 
 <main>
-<div class="page-wrap">
+    <div class="page-wrap" style="margin-top:50px;margin-bottom:50px;">
 
-<h1>Manage Users</h1>
+        <div class="page-hero">
+            <h1>Manage Users</h1>
+            <p>Admin panel për menaxhimin e user-ave</p>
+        </div>
 
-<table border="1" cellpadding="10" cellspacing="0">
+        <div class="page-card" style="overflow-x:auto;">
 
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Email</th>
-<th>Role</th>
-<th>Action</th>
-</tr>
+            <table style="width:100%;border-collapse:collapse;margin-top:20px;">
 
-<?php foreach($users as $user): ?>
+                <thead>
+                    <tr style="background:#f6d6df;">
+                        <th style="padding:15px;text-align:left;">ID</th>
+                        <th style="padding:15px;text-align:left;">Name</th>
+                        <th style="padding:15px;text-align:left;">Email</th>
+                        <th style="padding:15px;text-align:left;">Role</th>
+                        <th style="padding:15px;text-align:left;">Action</th>
+                    </tr>
+                </thead>
 
-<tr>
+                <tbody>
 
-<td>
-<?= htmlspecialchars($user['id']) ?>
-</td>
+                <?php foreach($users as $user): ?>
 
-<td>
-<?= htmlspecialchars($user['name']) ?>
-</td>
+                    <tr style="border-bottom:1px solid #eee;">
 
-<td>
-<?= htmlspecialchars($user['email']) ?>
-</td>
+                        <td style="padding:15px;">
+                            <?= htmlspecialchars($user['id']) ?>
+                        </td>
 
-<td>
-<?= htmlspecialchars($user['role']) ?>
-</td>
+                        <td style="padding:15px;">
+                            <?= htmlspecialchars($user['name']) ?>
+                        </td>
 
-<td>
+                        <td style="padding:15px;">
+                            <?= htmlspecialchars($user['email']) ?>
+                        </td>
 
-<a href="?delete=<?= $user['id'] ?>"
-onclick="return confirm('Delete user?')">
+                        <td style="padding:15px;">
+                            <span style="background:black;color:white;padding:5px 10px;border-radius:8px;font-size:12px;">
+                                <?= htmlspecialchars($user['role']) ?>
+                            </span>
+                        </td>
 
-Delete
+                        <td style="padding:15px;">
 
-</a>
+                            <a href="?delete=<?= $user['id'] ?>"
+                               class="page-btn"
+                               style="background:#ff4d4d;"
+                               onclick="return confirm('Delete user?')">
 
-</td>
+                                Delete
 
-</tr>
+                            </a>
 
-<?php endforeach; ?>
+                        </td>
 
-</table>
+                    </tr>
 
-</div>
+                <?php endforeach; ?>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div style="margin-top:25px;">
+
+            <a href="<?php echo BASE_URL; ?>pages/admin-dashboard.php"
+               class="page-btn">
+
+                Back to Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
 </main>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
