@@ -9,7 +9,6 @@ requireRole('admin');
 require_once __DIR__ . '/../data/products-data.php';
 require_once __DIR__ . '/../data/user-data.php';
 require_once __DIR__ . '/../includes/header.php';
-requireRole('admin');
 
 $message = '';
 $messageType = 'success';
@@ -80,7 +79,7 @@ try {
     $editProduct = null;
 }
 
-require_once __DIR__ . '/../includes/header.php';
+
 ?>
 <main>
     <div class="page-wrap">

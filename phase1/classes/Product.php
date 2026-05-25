@@ -122,6 +122,14 @@ public static function update(string $id, array $data): bool
 {
     $conn = self::db();
 
+    $name = trim($data['name']);
+    $price = (float)$data['price'];
+    $category = trim($data['category']);
+    $description = trim($data['description']);
+
+    $featured = isset($data['featured']) ? 1 : 0;
+    $on_sale = isset($data['on_sale']) ? 1 : 0;
+
     $stmt = mysqli_prepare(
         $conn,
         "UPDATE products
@@ -160,6 +168,23 @@ public static function delete(string $id): bool
     mysqli_stmt_bind_param($stmt, "s", $id);
 
     return mysqli_stmt_execute($stmt);
+}
+public static function find(string $id): ?array
+{
+    $conn = self::db();
+
+    $stmt = mysqli_prepare(
+        $conn,
+        "SELECT * FROM products WHERE id = ? LIMIT 1"
+    );
+
+    mysqli_stmt_bind_param($stmt, "s", $id);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    $product = mysqli_fetch_assoc($result);
+
+    return $product ?: null;
 }
 }
 ?>
