@@ -70,4 +70,5 @@ require_once __DIR__ . '/../includes/header.php';
     </div>
     <?php endif; ?>
 </main>
+<script src="../assets/js/ajax.js"></script>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

@@ -237,7 +237,7 @@ try {
                 </thead>
                 <tbody>
                     <?php foreach ($products as $p): ?>
-                        <tr style="border-bottom:1px solid #eee;">
+                        <tr id="product-row-<?php echo htmlspecialchars($p['id']); ?>" style="border-bottom:1px solid #eee;">
     
                             <td style="padding:10px;"><?php echo htmlspecialchars($p['name']); ?></td>
                             <td style="padding:10px;"><?php echo htmlspecialchars($p['category']); ?></td>
@@ -246,7 +246,7 @@ try {
                             <td style="padding:10px;"><?php echo !empty($p['on_sale']) ? 'Yes' : 'No'; ?></td>
                             <td style="padding:10px;">
                                 <a href="<?php echo BASE_URL; ?>pages/admin-dashboard.php?edit=<?php echo urlencode($p['id']); ?>" class="page-btn" style="margin-right:8px;">Edit</a>
-                                <a href="<?php echo BASE_URL; ?>pages/admin-dashboard.php?delete=<?php echo urlencode($p['id']); ?>" class="page-btn" onclick="return confirm('A jeni i sigurt që dëshironi ta fshini këtë produkt?')">Delete</a>
+                                <a href="#" class="page-btn ajax-delete-btn" data-id="<?php echo htmlspecialchars($p['id']); ?>">Delete</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -260,4 +260,5 @@ try {
         </div>
     </div>
 </main>
+<script src="../assets/js/ajax.js"></script>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
