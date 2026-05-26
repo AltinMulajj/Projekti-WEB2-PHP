@@ -3,7 +3,6 @@ require_once __DIR__ . '/../config/database.php';
 
 class Product
 {
-    private static $conn = null;
 
     private string $id;
     private string $name;
@@ -31,22 +30,9 @@ class Product
         $this->on_sale = $on_sale;
     }
 
-public static function db(){
-    if (self::$conn === null) {
-
-        self::$conn = mysqli_connect(
-            DB_HOST,
-            DB_USER,
-            DB_PASS,
-            DB_NAME
-        );
-
-        if (!self::$conn) {
-            die("Database connection failed: " . mysqli_connect_error());
-        }
-    }
-
-    return self::$conn;
+public static function db() {
+    global $conn;
+    return $conn;
 }
 public static function all(array $filters = []): array
 {

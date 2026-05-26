@@ -6,29 +6,10 @@ require_once __DIR__ . '/../config/constants.php';
 
 class User {
 
-    private static $conn = null;
-
-    public static function db() {
-
-        if (self::$conn === null) {
-
-            self::$conn = mysqli_connect(
-                DB_HOST,
-                DB_USER,
-                DB_PASS,
-                DB_NAME
-            );
-
-            if (!self::$conn) {
-                die("Database connection failed: " . mysqli_connect_error());
-            }
-
-            mysqli_set_charset(self::$conn, "utf8mb4");
-        }
-
-        return self::$conn;
-    }
-
+   public static function db() {
+    global $conn;
+    return $conn;
+}
     public static function register(
         string $name,
         string $email,
@@ -131,24 +112,14 @@ class User {
 
         return false;
     }
+// READ ALL
+public static function all(): array {
 
-    public static function escape(
-        string $value
-    ): string {
-
-        return htmlspecialchars(
-            $value,
-            ENT_QUOTES,
-            'UTF-8'
-        );
-    }
-    public static function all(): array {
     $conn = self::db();
 
-    $result = mysqli_query(
-        $conn,
-        "SELECT id, name, email, role, created_at FROM users ORDER BY id DESC"
-    );
+    $sql = "SELECT * FROM users ORDER BY id DESC";
+
+    $result = mysqli_query($conn, $sql);
 
     $users = [];
 
@@ -159,32 +130,94 @@ class User {
     return $users;
 }
 
-public static function updateRole(int $id, string $role): bool {
+// READ ONE
+public static function find(int $id): ?array {
+
     $conn = self::db();
 
     $stmt = mysqli_prepare(
         $conn,
-        "UPDATE users SET role=? WHERE id=?"
+        "SELECT * FROM users WHERE id=? LIMIT 1"
     );
 
-    mysqli_stmt_bind_param($stmt, "si", $role, $id);
+    mysqli_stmt_bind_param(
+        $stmt,
+        "i",
+        $id
+    );
+
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+
+    $user = mysqli_fetch_assoc($result);
+
+    return $user ?: null;
+}
+
+// UPDATE
+public static function update(
+    int $id,
+    array $data
+): bool {
+
+    $conn = self::db();
+
+    $name = trim($data['name']);
+    $email = trim($data['email']);
+    $role = trim($data['role']);
+
+    $stmt = mysqli_prepare(
+        $conn,
+        "UPDATE users
+        SET name=?, email=?, role=?
+        WHERE id=?"
+    );
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "sssi",
+        $name,
+        $email,
+        $role,
+        $id
+    );
 
     return mysqli_stmt_execute($stmt);
 }
 
-public static function delete(int $id): bool {
+// DELETE
+public static function delete(
+    int $id
+): bool {
+
     $conn = self::db();
 
     $stmt = mysqli_prepare(
         $conn,
-        "DELETE FROM users WHERE id=?"
+        "DELETE FROM users
+         WHERE id=?"
     );
 
-    mysqli_stmt_bind_param($stmt, "i", $id);
+    mysqli_stmt_bind_param(
+        $stmt,
+        "i",
+        $id
+    );
 
     return mysqli_stmt_execute($stmt);
 }
+    public static function escape(
+        string $value
+    ): string {
 
+        return htmlspecialchars(
+            $value,
+            ENT_QUOTES,
+            'UTF-8'
+        );
+    }
+   
 }
 ?>
 
