@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    
+    const apiBase = "/Projekti-WEB2-PHP/phase1/api/";
     const deleteButtons = document.querySelectorAll(".ajax-delete-btn");
 
     deleteButtons.forEach(button => {
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 formData.append("id", productId);
                 formData.append("action", "delete");
 
-                fetch("../api/products-api.php", {
+                fetch(apiBase + "products-api.php", {
                     method: "POST",
                     body: formData
                 })
@@ -47,13 +47,30 @@ document.addEventListener("DOMContentLoaded", function () {
             formData.append("product_id", productId);
             formData.append("action", "add");
 
-            fetch("../api/cart-api.php", {
+           fetch(apiBase + "cart-api.php", {
                 method: "POST",
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+const existing = cart.find(item => item.id === productId);
+
+if (existing) {
+    existing.quantity++;
+} else {
+    cart.push({
+        id: productId,
+        name: button.getAttribute("data-name"),
+        price: button.getAttribute("data-price"),
+        img: button.getAttribute("data-img"),
+        quantity: 1
+    });
+}
+
+localStorage.setItem("cart", JSON.stringify(cart));
                     alert(data.message);
                     
                     const cartCountElement = document.getElementById("cart-count");
