@@ -1,39 +1,33 @@
 <?php
 header('Content-Type: application/json');
 
-$conn = mysqli_connect("localhost", "root", "", "perla_glow");
+require_once __DIR__ . '/../config/database.php';
 
-if (!$conn) {
-    echo json_encode(["success" => false, "message" => "Lidhja me databazë dështoi."]);
-    exit;
-}
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delete') {
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete') {
-    
-    $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+    $id = trim($_POST['id'] ?? '');
 
-    if ($id <= 0) {
+    if ($id === '') {
         echo json_encode(["success" => false, "message" => "ID e pavlefshme."]);
         exit;
     }
 
-    $query = "DELETE FROM products WHERE id = ?";
-    $stmt = mysqli_prepare($conn, $query);
+    $stmt = mysqli_prepare($conn, "DELETE FROM products WHERE id = ?");
 
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "i", $id);
-
-        if (mysqli_stmt_execute($stmt)) {
-            echo json_encode(["success" => true, "message" => "Produkti u fshie me sukses!"]);
-        } else {
-            echo json_encode(["success" => false, "message" => "Fshirja dështoi në databazë."]);
-        }
-        mysqli_stmt_close($stmt);
-    } else {
+    if (!$stmt) {
         echo json_encode(["success" => false, "message" => "Gabim në prepared statement."]);
+        exit;
     }
-    
-    mysqli_close($conn);
+
+    mysqli_stmt_bind_param($stmt, "s", $id);
+
+    if (mysqli_stmt_execute($stmt)) {
+        echo json_encode(["success" => true, "message" => "Produkti u fshi me sukses!"]);
+    } else {
+        echo json_encode(["success" => false, "message" => "Fshirja dështoi në databazë."]);
+    }
+
     exit;
 }
-?>
+
+echo json_encode(["success" => false, "message" => "Kërkesë e pavlefshme."]);

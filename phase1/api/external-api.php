@@ -2,7 +2,7 @@
 include 'includes/header.php';
 include 'includes/navigation.php';
 
-$api_url = "http://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline";
+$api_url = "https://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline";
 
 $json_data = @file_get_contents($api_url);
 
@@ -20,13 +20,13 @@ $products_to_show = is_array($external_products) ? array_slice($external_product
             <?php foreach ($products_to_show as $prod): ?>
                 <div class="border rounded-lg p-4 bg-white shadow-sm flex flex-col justify-between hover:shadow-md transition">
                     <div>
-                        <img src="<?php echo $prod['image_link']; ?>" alt="<?php echo $prod['name']; ?>" class="w-full h-40 object-contain mb-4" onerror="this.src='assets/images/default.jpg'">
+                        <img src="<?php echo htmlspecialchars($prod['image_link']??''); ?>" alt="<?php echo $prod['name']; ?>" class="w-full h-40 object-contain mb-4" onerror="this.src='assets/images/default.jpg'">
                         <h3 class="font-semibold text-gray-800 text-sm mb-2 line-clamp-2"><?php echo htmlspecialchars($prod['name']); ?></h3>
                         <span class="text-xs bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full font-bold uppercase"><?php echo htmlspecialchars($prod['product_type']); ?></span>
                     </div>
                     <div class="mt-4">
                         <span class="text-lg font-bold text-gray-900">$<?php echo htmlspecialchars($prod['price']); ?></span>
-                        <a href="<?php echo $prod['product_link']; ?>" target="_blank" class="block text-center bg-pink-500 hover:bg-pink-600 text-white text-xs font-medium py-2 px-4 rounded mt-2 transition">
+                        <a href="<?php echo htmlspecialchars($prod['product_link']??''); ?>" target="_blank" class="block text-center bg-pink-500 hover:bg-pink-600 text-white text-xs font-medium py-2 px-4 rounded mt-2 transition">
                             Shiko Artikullin
                         </a>
                     </div>
