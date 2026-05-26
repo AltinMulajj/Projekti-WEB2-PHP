@@ -119,7 +119,7 @@ try {
         <div class="page-card" style="margin-top:20px;">
             <h3><?php echo $editProduct ? 'Edit Product' : 'Add New Product'; ?></h3>
 
-            <form method="POST" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:15px;">
+            <form method="POST" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:15px;" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="<?php echo $editProduct ? 'update' : 'create'; ?>">
 
                 <div>
@@ -167,6 +167,19 @@ try {
                         required
                         style="width:100%;padding:10px;"
                         placeholder="makeup, skincare, hair..."
+                    >
+                </div>
+
+                <div>
+                    <label style="display:block;margin-bottom:6px;">Product Image</label>
+                    <input
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        value="<?php echo htmlspecialchars($editProduct['image'] ?? ''); ?>"
+                        required
+                        style="width:100%;padding:10px;"
+                        placeholder="assets/images/product.jpg"
                     >
                 </div>
 
@@ -247,7 +260,7 @@ try {
                 </thead>
                 <tbody>
                     <?php foreach ($products as $p): ?>
-                        <tr style="border-bottom:1px solid #eee;">
+                        <tr id="product-row-<?php echo htmlspecialchars($p['id']); ?>" style="border-bottom:1px solid #eee;">
     
                             <td style="padding:10px;"><?php echo htmlspecialchars($p['name']); ?></td>
                             <td style="padding:10px;"><?php echo htmlspecialchars($p['category']); ?></td>
@@ -256,7 +269,7 @@ try {
                             <td style="padding:10px;"><?php echo !empty($p['on_sale']) ? 'Yes' : 'No'; ?></td>
                             <td style="padding:10px;">
                                 <a href="<?php echo BASE_URL; ?>pages/admin-dashboard.php?edit=<?php echo urlencode($p['id']); ?>" class="page-btn" style="margin-right:8px;">Edit</a>
-                                <a href="<?php echo BASE_URL; ?>pages/admin-dashboard.php?delete=<?php echo urlencode($p['id']); ?>" class="page-btn" onclick="return confirm('A jeni i sigurt që dëshironi ta fshini këtë produkt?')">Delete</a>
+                                <a href="#" class="page-btn ajax-delete-btn" data-id="<?php echo htmlspecialchars($p['id']); ?>">Delete</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -270,4 +283,5 @@ try {
         </div>
     </div>
 </main>
+<script src="../assets/js/ajax.js"></script>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

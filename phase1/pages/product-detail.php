@@ -24,9 +24,11 @@ require_once __DIR__ . '/../includes/header.php';
             <h2><?php echo $selectedProduct['name']; ?></h2>
             <p class="price"><?php echo number_format($selectedProduct['price'],2); ?>€</p>
             <p class="description"><?php echo $selectedProduct['description']; ?></p>
+            
             <?php if ($selectedProduct['on_sale']): ?>
                 <p style="color:#c8102e;font-weight:bold;">🔥 On Sale!</p>
             <?php endif; ?>
+
             <button class="add-to-cart"
                 data-id="<?php echo $selectedProduct['id']; ?>"
                 data-name="<?php echo $selectedProduct['name']; ?>"
@@ -70,4 +72,5 @@ require_once __DIR__ . '/../includes/header.php';
     </div>
     <?php endif; ?>
 </main>
+<script src="../assets/js/ajax.js"></script>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

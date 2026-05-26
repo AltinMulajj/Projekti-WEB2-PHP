@@ -5,6 +5,16 @@ require_once __DIR__ . '/../data/products-data.php';
 require_once __DIR__ . '/../includes/header.php';
 
 $category = $_GET['category'] ?? 'all';
+
+if ($category !== 'all') {
+
+    setcookie(
+        'favorite_category',
+        $category,
+        time() + (86400 * 30),
+        '/'
+    );
+}
 if ($category !== 'all') {
     $products = array_filter($products, fn($p) => $p['category'] === $category);
 }
@@ -39,6 +49,7 @@ if (!empty($search)) {
             <form method="GET">
                 <input type="hidden" name="category" value="<?php echo htmlspecialchars($category); ?>">
                 <select name="sort" onchange="this.form.submit()">
+
                     <option value="">Default</option>
                     <option value="price_asc"  <?php echo $sort==='price_asc'  ?'selected':''; ?>>Price: Low to High</option>
                     <option value="price_desc" <?php echo $sort==='price_desc' ?'selected':''; ?>>Price: High to Low</option>
@@ -46,6 +57,7 @@ if (!empty($search)) {
                 </select>
             </form>
         </div>
+        
         <?php if (empty($products)): ?>
             <div class="no-products">
                 <h2>No products found</h2>
@@ -73,4 +85,5 @@ if (!empty($search)) {
         <?php endif; ?>
     </div>
 </main>
+<script src="../assets/js/ajax.js"></script>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

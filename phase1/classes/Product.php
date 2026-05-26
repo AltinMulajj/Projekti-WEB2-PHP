@@ -79,6 +79,20 @@ public static function create(array $data): bool
     $price = (float)$data['price'];
     $category = trim($data['category']);
     $description = trim($data['description']);
+    $imagePath = '';
+
+if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+
+    $uploadDir = __DIR__ . '/../assets/images/';
+
+    $fileName = time() . '_' . basename($_FILES['image']['name']);
+
+    $targetFile = $uploadDir . $fileName;
+
+    move_uploaded_file($_FILES['image']['tmp_name'], $targetFile);
+
+    $imagePath = 'assets/images/' . $fileName;
+}
 
     $featured = isset($data['featured']) ? 1 : 0;
     $on_sale = isset($data['on_sale']) ? 1 : 0;
@@ -86,17 +100,18 @@ public static function create(array $data): bool
     $stmt = mysqli_prepare(
         $conn,
         "INSERT INTO products
-        (id, name, price, category, description, featured, on_sale)
-        VALUES (?, ?, ?, ?, ?, ?, ?)"
+        (id, name, price, category, image, description, featured, on_sale)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
     );
 
     mysqli_stmt_bind_param(
         $stmt,
-        "ssdssii",
+        "ssdsssii",
         $id,
         $name,
         $price,
         $category,
+        $imagePath,
         $description,
         $featured,
         $on_sale
@@ -112,6 +127,22 @@ public static function update(string $id, array $data): bool
     $price = (float)$data['price'];
     $category = trim($data['category']);
     $description = trim($data['description']);
+    $currentProduct = self::find($id);
+
+$imagePath = $currentProduct['image'];
+
+if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+
+    $uploadDir = __DIR__ . '/../assets/images/';
+
+    $fileName = time() . '_' . basename($_FILES['image']['name']);
+
+    $targetFile = $uploadDir . $fileName;
+
+    move_uploaded_file($_FILES['image']['tmp_name'], $targetFile);
+
+    $imagePath = 'assets/images/' . $fileName;
+}
 
     $featured = isset($data['featured']) ? 1 : 0;
     $on_sale = isset($data['on_sale']) ? 1 : 0;
@@ -122,6 +153,7 @@ public static function update(string $id, array $data): bool
         SET name = ?,
             price = ?,
             category = ?,
+            image = ?,
             description = ?,
             featured = ?,
             on_sale = ?
@@ -130,10 +162,11 @@ public static function update(string $id, array $data): bool
 
     mysqli_stmt_bind_param(
         $stmt,
-        "sdssiis",
+        "sdsssiis",
         $name,
         $price,
         $category,
+        $imagePath,
         $description,
         $featured,
         $on_sale,
