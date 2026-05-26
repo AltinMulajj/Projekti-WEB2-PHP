@@ -58,7 +58,8 @@ $products = Product::all([
                 <?php foreach ($products as $product): ?>
                     <div class="product-card" data-category="<?php echo $product['category']; ?>">
                         <a href="<?php echo BASE_URL; ?>pages/product-detail.php?id=<?php echo $product['id']; ?>">
-    <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
+    <img src="<?php echo BASE_URL . $product['image']; ?>" 
+     alt="<?php echo htmlspecialchars($product['name']); ?>">
 </a>
                         <h3><?php echo $product['name']; ?></h3>
                         <p><?php echo number_format($product['price'],2); ?>€</p>
