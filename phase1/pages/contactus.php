@@ -38,17 +38,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Message is required.';
     }
 
-    if (empty($errors)) {
+  if (empty($errors)) {
 
-        $success = true;
+    $to = "hello@perlaglow.ks";
+    $subject = "New Contact Message";
 
-        setcookie(
-            'last_contact_user',
-            $name,
-            time() + 86400,
-            '/'
-        );
-    }
+    $body = "Name: " . $name . "\n";
+    $body .= "Email: " . $email . "\n";
+    $body .= "Phone: " . $phone . "\n\n";
+    $body .= "Message:\n" . $message;
+
+    $headers = "From: " . $email;
+
+    mail($to, $subject, $body, $headers);
+
+    $success = true;
+
+    setcookie(
+        'last_contact_user',
+        $name,
+        time() + 86400,
+        '/'
+    );
+}
 }
 ?>
 <main>

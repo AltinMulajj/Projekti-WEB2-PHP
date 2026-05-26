@@ -78,6 +78,14 @@ public static function create(array $data): bool
     $name = trim($data['name']);
     $price = (float)$data['price'];
     $category = trim($data['category']);
+    $categoryMap = [
+    'makeup' => 1,
+    'skincare' => 2,
+    'hair' => 3,
+    'tools' => 4
+];
+
+$category_id = $categoryMap[$category] ?? 1;
     $description = trim($data['description']);
     $imagePath = '';
 
@@ -100,22 +108,23 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
     $stmt = mysqli_prepare(
         $conn,
         "INSERT INTO products
-        (id, name, price, category, image, description, featured, on_sale)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+(id, name, price, category, category_id, image, description, featured, on_sale)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
     );
 
-    mysqli_stmt_bind_param(
-        $stmt,
-        "ssdsssii",
-        $id,
-        $name,
-        $price,
-        $category,
-        $imagePath,
-        $description,
-        $featured,
-        $on_sale
-    );
+   mysqli_stmt_bind_param(
+    $stmt,
+    "ssdisssii",
+    $id,
+    $name,
+    $price,
+    $category,
+    $category_id,
+    $imagePath,
+    $description,
+    $featured,
+    $on_sale
+);
 
     return mysqli_stmt_execute($stmt);
 }
@@ -126,6 +135,14 @@ public static function update(string $id, array $data): bool
     $name = trim($data['name']);
     $price = (float)$data['price'];
     $category = trim($data['category']);
+    $categoryMap = [
+    'makeup' => 1,
+    'skincare' => 2,
+    'hair' => 3,
+    'tools' => 4
+];
+
+$category_id = $categoryMap[$category] ?? 1;
     $description = trim($data['description']);
     $currentProduct = self::find($id);
 
@@ -150,28 +167,30 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
     $stmt = mysqli_prepare(
         $conn,
         "UPDATE products
-        SET name = ?,
-            price = ?,
-            category = ?,
-            image = ?,
-            description = ?,
-            featured = ?,
-            on_sale = ?
-        WHERE id = ?"
+ SET name = ?,
+     price = ?,
+     category = ?,
+     category_id = ?,
+     image = ?,
+     description = ?,
+     featured = ?,
+     on_sale = ?
+ WHERE id = ?"
     );
 
-    mysqli_stmt_bind_param(
-        $stmt,
-        "sdsssiis",
-        $name,
-        $price,
-        $category,
-        $imagePath,
-        $description,
-        $featured,
-        $on_sale,
-        $id
-    );
+  mysqli_stmt_bind_param(
+    $stmt,
+    "sdsisssis",
+    $name,
+    $price,
+    $category,
+    $category_id,
+    $imagePath,
+    $description,
+    $featured,
+    $on_sale,
+    $id
+);
 
     return mysqli_stmt_execute($stmt);
 }

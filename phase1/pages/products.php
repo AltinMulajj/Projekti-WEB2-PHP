@@ -1,13 +1,14 @@
 <?php
 require_once __DIR__ . '/../config/constants.php';
 require_once __DIR__ . '/../config/session-config.php';
-require_once __DIR__ . '/../data/products-data.php';
 require_once __DIR__ . '/../includes/header.php';
+require_once __DIR__ . '/../classes/Product.php';
 
 $category = $_GET['category'] ?? 'all';
+$sort = $_GET['sort'] ?? '';
+$search = $_GET['q'] ?? '';
 
 if ($category !== 'all') {
-
     setcookie(
         'favorite_category',
         $category,
@@ -15,22 +16,11 @@ if ($category !== 'all') {
         '/'
     );
 }
-if ($category !== 'all') {
-    $products = array_filter($products, fn($p) => $p['category'] === $category);
-}
 
-$sort = $_GET['sort'] ?? '';
-if ($sort === 'price_asc')  usort($products, fn($a,$b) => $a['price'] <=> $b['price']);
-if ($sort === 'price_desc') usort($products, fn($a,$b) => $b['price'] <=> $a['price']);
-if ($sort === 'name')       usort($products, fn($a,$b) => strcmp($a['name'], $b['name']));
-
-$search = $_GET['q'] ?? '';
-if (!empty($search)) {
-    $products = array_filter($products, fn($p) => 
-        stripos($p['name'], $search) !== false ||
-        stripos($p['description'], $search) !== false
-    );
-}
+$products = Product::all([
+    'q' => $search,
+    'category' => $category
+]);
 ?>
 <main>
     <div class="page-wrap">
@@ -72,7 +62,7 @@ if (!empty($search)) {
                         </a>
                         <h3><?php echo $product['name']; ?></h3>
                         <p><?php echo number_format($product['price'],2); ?>€</p>
-                        <button class="add-to-cart"
+                        <button class="add-to-cart-btn"
                             data-id="<?php echo $product['id']; ?>"
                             data-name="<?php echo $product['name']; ?>"
                             data-price="<?php echo $product['price']; ?>"
