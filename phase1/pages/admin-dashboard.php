@@ -6,8 +6,6 @@ require_once __DIR__ . '/../classes/Product.php';
 
 requireRole('admin');
 
-require_once __DIR__ . '/../data/products-data.php';
-require_once __DIR__ . '/../data/user-data.php';
 require_once __DIR__ . '/../includes/header.php';
 
 $message = '';

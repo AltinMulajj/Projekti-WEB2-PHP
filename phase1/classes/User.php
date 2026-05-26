@@ -1,48 +1,16 @@
 <?php
 
-
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/constants.php';
-require_once __DIR__ . '/../config/database.php';
 
 class User {
 
-    private static $conn = null;
-
-    private int $id;
-    private string $name;
-    private string $email;
-    private string $password;
-    private string $role;
-
     public static function db() {
-
-        if (self::$conn === null) {
-
-            self::$conn = mysqli_connect(
-                DB_HOST,
-                DB_USER,
-                DB_PASS,
-                DB_NAME
-            );
-
-            if (!self::$conn) {
-                die("Database connection failed: " . mysqli_connect_error());
-            }
-
-            mysqli_set_charset(self::$conn, "utf8mb4");
-        }
-
-        return self::$conn;
+        global $conn;
+        return $conn;
     }
 
-    // CREATE
-    public static function register(
-        string $name,
-        string $email,
-        string $password
-    ): bool {
-
+    public static function register(string $name, string $email, string $password): bool {
         $conn = self::db();
 
         $name = trim($name);
@@ -60,17 +28,8 @@ class User {
             return false;
         }
 
-        $check = mysqli_prepare(
-            $conn,
-            "SELECT id FROM users WHERE email=?"
-        );
-
-        mysqli_stmt_bind_param(
-            $check,
-            "s",
-            $email
-        );
-
+        $check = mysqli_prepare($conn, "SELECT id FROM users WHERE email=?");
+        mysqli_stmt_bind_param($check, "s", $email);
         mysqli_stmt_execute($check);
 
         $result = mysqli_stmt_get_result($check);
@@ -79,10 +38,7 @@ class User {
             return false;
         }
 
-        $hashedPassword = password_hash(
-            $password,
-            PASSWORD_DEFAULT
-        );
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         $stmt = mysqli_prepare(
             $conn,
@@ -90,65 +46,36 @@ class User {
              VALUES(?,?,?,'user')"
         );
 
-        mysqli_stmt_bind_param(
-            $stmt,
-            "sss",
-            $name,
-            $email,
-            $hashedPassword
-        );
+        mysqli_stmt_bind_param($stmt, "sss", $name, $email, $hashedPassword);
 
         return mysqli_stmt_execute($stmt);
     }
 
-    // LOGIN
-    public static function login(
-        string $email,
-        string $password
-    ): array|false {
-
+    public static function login(string $email, string $password): array|false {
         $conn = self::db();
 
         $stmt = mysqli_prepare(
             $conn,
-            "SELECT * FROM users
-             WHERE email=?
-             LIMIT 1"
+            "SELECT * FROM users WHERE email=? LIMIT 1"
         );
 
-        mysqli_stmt_bind_param(
-            $stmt,
-            "s",
-            $email
-        );
-
+        mysqli_stmt_bind_param($stmt, "s", $email);
         mysqli_stmt_execute($stmt);
 
         $result = mysqli_stmt_get_result($stmt);
-
         $user = mysqli_fetch_assoc($result);
 
-        if (
-            $user &&
-            password_verify(
-                $password,
-                $user['password']
-            )
-        ) {
+        if ($user && password_verify($password, $user['password'])) {
             return $user;
         }
 
         return false;
     }
 
-    // READ ALL
     public static function all(): array {
-
         $conn = self::db();
 
-        $sql = "SELECT * FROM users ORDER BY id DESC";
-
-        $result = mysqli_query($conn, $sql);
+        $result = mysqli_query($conn, "SELECT * FROM users ORDER BY id DESC");
 
         $users = [];
 
@@ -159,41 +86,23 @@ class User {
         return $users;
     }
 
-    // READ ONE
-    public static function find(
-        int $id
-    ): ?array {
-
+    public static function find(int $id): ?array {
         $conn = self::db();
 
         $stmt = mysqli_prepare(
             $conn,
-            "SELECT * FROM users
-             WHERE id = ?
-             LIMIT 1"
+            "SELECT * FROM users WHERE id=? LIMIT 1"
         );
 
-        mysqli_stmt_bind_param(
-            $stmt,
-            "i",
-            $id
-        );
-
+        mysqli_stmt_bind_param($stmt, "i", $id);
         mysqli_stmt_execute($stmt);
 
         $result = mysqli_stmt_get_result($stmt);
 
-        $user = mysqli_fetch_assoc($result);
-
-        return $user ?: null;
+        return mysqli_fetch_assoc($result) ?: null;
     }
 
-    // UPDATE
-    public static function update(
-        int $id,
-        array $data
-    ): bool {
-
+    public static function update(int $id, array $data): bool {
         $conn = self::db();
 
         $name = trim($data['name']);
@@ -210,99 +119,30 @@ class User {
 
         $stmt = mysqli_prepare(
             $conn,
-            "UPDATE users
-             SET name = ?, email = ?, role = ?
-             WHERE id = ?"
+            "UPDATE users SET name=?, email=?, role=? WHERE id=?"
         );
 
-        mysqli_stmt_bind_param(
-            $stmt,
-            "sssi",
-            $name,
-            $email,
-            $role,
-            $id
-        );
+        mysqli_stmt_bind_param($stmt, "sssi", $name, $email, $role, $id);
 
         return mysqli_stmt_execute($stmt);
     }
 
-    // DELETE
-    public static function delete(
-        int $id
-    ): bool {
-
+    public static function delete(int $id): bool {
         $conn = self::db();
 
         $stmt = mysqli_prepare(
             $conn,
-            "DELETE FROM users
-             WHERE id = ?"
+            "DELETE FROM users WHERE id=?"
         );
 
-        mysqli_stmt_bind_param(
-            $stmt,
-            "i",
-            $id
-        );
+        mysqli_stmt_bind_param($stmt, "i", $id);
 
         return mysqli_stmt_execute($stmt);
     }
 
-    // ESCAPE
-    public static function escape(
-        string $value
-    ): string {
-
-        return htmlspecialchars(
-            $value,
-            ENT_QUOTES,
-            'UTF-8'
-        );
+    public static function escape(string $value): string {
+        return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
     }
-    public static function all(): array {
-    $conn = self::db();
-
-    $result = mysqli_query(
-        $conn,
-        "SELECT id, name, email, role, created_at FROM users ORDER BY id DESC"
-    );
-
-    $users = [];
-
-    while ($row = mysqli_fetch_assoc($result)) {
-        $users[] = $row;
-    }
-
-    return $users;
 }
 
-public static function updateRole(int $id, string $role): bool {
-    $conn = self::db();
-
-    $stmt = mysqli_prepare(
-        $conn,
-        "UPDATE users SET role=? WHERE id=?"
-    );
-
-    mysqli_stmt_bind_param($stmt, "si", $role, $id);
-
-    return mysqli_stmt_execute($stmt);
-}
-
-public static function delete(int $id): bool {
-    $conn = self::db();
-
-    $stmt = mysqli_prepare(
-        $conn,
-        "DELETE FROM users WHERE id=?"
-    );
-
-    mysqli_stmt_bind_param($stmt, "i", $id);
-
-    return mysqli_stmt_execute($stmt);
-}
-
-}
 ?>
-
