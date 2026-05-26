@@ -1,13 +1,12 @@
 <?php
 require_once __DIR__ . '/../config/constants.php';
 require_once __DIR__ . '/../config/session-config.php';
-require_once __DIR__ . '/../data/products-data.php';
+require_once __DIR__ . '/../classes/Product.php';
 
-$id = $_GET['id'] ?? null;
-$selectedProduct = null;
-foreach ($products as $p) {
-    if ($p['id'] === $id) { $selectedProduct = $p; break; }
-}
+$id = $_GET['id'] ?? '';
+
+$selectedProduct = Product::find((string)$id);
+$products = Product::all();
 if (!$selectedProduct) {
     header('Location: ' . BASE_URL . 'pages/products.php');
     exit;
@@ -18,7 +17,7 @@ require_once __DIR__ . '/../includes/header.php';
 <main>
     <div class="product-page">
         <div class="product-image">
-            <img src="<?php echo $selectedProduct['image']; ?>" alt="<?php echo $selectedProduct['name']; ?>">
+            <img src="<?php echo BASE_URL.$selectedProduct['image']; ?>" alt="<?php echo $selectedProduct['name']; ?>">
         </div>
         <div class="product-details">
             <h2><?php echo $selectedProduct['name']; ?></h2>
@@ -29,11 +28,11 @@ require_once __DIR__ . '/../includes/header.php';
                 <p style="color:#c8102e;font-weight:bold;">🔥 On Sale!</p>
             <?php endif; ?>
 
-            <button class="add-to-cart"
+            <button class="add-to-cart-btn"
                 data-id="<?php echo $selectedProduct['id']; ?>"
                 data-name="<?php echo $selectedProduct['name']; ?>"
                 data-price="<?php echo $selectedProduct['price']; ?>"
-                data-img="<?php echo $selectedProduct['image']; ?>">
+                data-img="<?php echo BASE_URL.$selectedProduct['image']; ?>">
                 Add to Cart
             </button>
             <br><br>
@@ -55,15 +54,15 @@ require_once __DIR__ . '/../includes/header.php';
             <?php foreach ($related as $p): ?>
                 <div class="product-card">
                     <a href="<?php echo BASE_URL; ?>pages/product-detail.php?id=<?php echo $p['id']; ?>">
-                        <img src="<?php echo $p['image']; ?>" alt="<?php echo $p['name']; ?>">
+                        <img src="<?php echo BASE_URL.$p['image']; ?>" alt="<?php echo $p['name']; ?>">
                     </a>
                     <h3><?php echo $p['name']; ?></h3>
                     <p><?php echo number_format($p['price'],2); ?>€</p>
-                    <button class="add-to-cart"
+                    <button class="add-to-cart-btn"
                         data-id="<?php echo $p['id']; ?>"
                         data-name="<?php echo $p['name']; ?>"
                         data-price="<?php echo $p['price']; ?>"
-                        data-img="<?php echo $p['image']; ?>">
+                        data-img="<?php echo BASE_URL.$p['image']; ?>">
                         Add to Cart
                     </button>
                 </div>
