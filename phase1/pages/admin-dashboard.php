@@ -173,14 +173,12 @@ try {
                 <div>
                     <label style="display:block;margin-bottom:6px;">Product Image</label>
                     <input
-                        type="file"
-                        name="image"
-                        accept="image/*"
-                        value="<?php echo htmlspecialchars($editProduct['image'] ?? ''); ?>"
-                        required
-                        style="width:100%;padding:10px;"
-                        placeholder="assets/images/product.jpg"
-                    >
+    type="file"
+    name="image"
+    accept="image/*"
+    <?php echo isset($editProduct) ? '' : 'required'; ?>
+    style="width:100%;padding:10px;"
+>
                 </div>
 
                 <div style="grid-column:1 / -1;">
